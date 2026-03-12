@@ -8,6 +8,18 @@ const RUZOMI_HOSTS = new Set(["ruzomi.com", "www.ruzomi.com"]);
 const STATUS_HOSTS = new Set(["status.paytocommit.com", "www.status.paytocommit.com"]);
 const DEVELOPER_HOSTS = new Set(["developers.paytocommit.com", "www.developers.paytocommit.com"]);
 const PLATFORM_HOSTS = new Set(["platform.paytocommit.com", "www.platform.paytocommit.com"]);
+const RUZOMI_PASSTHROUGH_PREFIXES = [
+  "/ruzomi",
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/set-new-password",
+  "/profiles",
+  "/api",
+  "/auth",
+  "/quickstart",
+  "/settings",
+];
 
 function withSessionCookie(request: NextRequest, response: NextResponse) {
   if (request.cookies.get(APP_SESSION_COOKIE)?.value) {
@@ -39,7 +51,7 @@ export function proxy(request: NextRequest) {
     return withSessionCookie(request, NextResponse.next());
   }
 
-  if (RUZOMI_HOSTS.has(host) && !pathname.startsWith("/ruzomi")) {
+  if (RUZOMI_HOSTS.has(host) && !RUZOMI_PASSTHROUGH_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
     const rewriteUrl = request.nextUrl.clone();
     rewriteUrl.pathname = pathname === "/" ? "/ruzomi" : `/ruzomi${pathname}`;
     return withSessionCookie(request, NextResponse.rewrite(rewriteUrl));
