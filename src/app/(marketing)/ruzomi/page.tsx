@@ -7,7 +7,9 @@ import { getGenerationEligibilityStateForSession, getSiteState, getWalletState, 
 import { getAuthenticatedAppSessionToken, getAuthenticatedSupabaseUser } from "@/lib/supabase/authenticated-user";
 
 export const metadata: Metadata = {
-  title: "Ruzomi",
+  title: {
+    absolute: "Ruzomi",
+  },
   description: "Open the full PayToCommit network view for Spark, commitment channels, verified wins, and the Commitment Pulse.",
 };
 

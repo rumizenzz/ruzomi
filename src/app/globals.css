@@ -13338,6 +13338,8 @@ html[data-theme="light"] .forge-neutral-notice {
 }
 
 .ruzomi-shell {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 18rem minmax(0, 1fr);
   min-height: 100vh;
@@ -13564,7 +13566,10 @@ html[data-theme="light"] .forge-neutral-notice {
 }
 
 .ruzomi-gif-shell {
+  position: relative;
   overflow: hidden;
+  aspect-ratio: 16 / 9;
+  min-height: 180px;
   border-radius: 18px;
   border: 1px solid rgba(145, 223, 255, 0.12);
   background: rgba(5, 10, 20, 0.9);
@@ -13573,7 +13578,6 @@ html[data-theme="light"] .forge-neutral-notice {
 .ruzomi-gif-shell img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Syne } from "next/font/google";
+import { headers } from "next/headers";
 import Script from "next/script";
 import { getPublicEnv } from "@/lib/env";
+import { getHostModeFromHost } from "@/lib/host-mode";
 import "./globals.css";
 
 const displayFont = Syne({
@@ -22,77 +24,130 @@ const monoFont = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://paytocommit.com"),
-  manifest: "/site.webmanifest?v=20260309c",
-  title: {
-    default: "PayToCommit - Get Paid To Do What You Said You'll Do",
-    template: "%s - PayToCommit",
-  },
-  icons: {
-    icon: [
-      {
-        url: "/paytocommit-tab.ico?v=20260309c",
-        type: "image/x-icon",
-        sizes: "any",
-      },
-      {
-        url: "/paytocommit-tab-32x32.png?v=20260309c",
-        type: "image/png",
-        sizes: "32x32",
-      },
-      {
-        url: "/paytocommit-tab-16x16.png?v=20260309c",
-        type: "image/png",
-        sizes: "16x16",
-      },
-      { url: "/favicon.ico?v=20260309c", sizes: "any" },
-    ],
-    shortcut: ["/paytocommit-tab.ico?v=20260309c"],
-    apple: [
-      {
-        url: "/apple-touch-icon.png?v=20260309c",
-        type: "image/png",
-        sizes: "180x180",
-      },
-    ],
-  },
-  description:
-    "PayToCommit is the commitment market where people put money behind what they said they would do, submit proof by the deadline, and close the loop with a visible result.",
-  keywords: [
-    "commitment markets",
-    "accountability app",
-    "habit commitment",
-    "daily commitment pools",
-    "proof-based commitments",
-    "get paid to do what you said you'll do",
-    "personal accountability",
-    "commitment pool",
+const sharedIcons: Metadata["icons"] = {
+  icon: [
+    {
+      url: "/paytocommit-tab.ico?v=20260309c",
+      type: "image/x-icon",
+      sizes: "any",
+    },
+    {
+      url: "/paytocommit-tab-32x32.png?v=20260309c",
+      type: "image/png",
+      sizes: "32x32",
+    },
+    {
+      url: "/paytocommit-tab-16x16.png?v=20260309c",
+      type: "image/png",
+      sizes: "16x16",
+    },
+    { url: "/favicon.ico?v=20260309c", sizes: "any" },
   ],
-  openGraph: {
-    title: "PayToCommit - Get Paid To Do What You Said You'll Do",
-    description:
-      "Open commitment pools across fitness, work, home, learning, money, and daily life. Join before the deadline, submit proof, and close with a visible result.",
-    url: "https://paytocommit.com",
-    siteName: "PayToCommit",
-    type: "website",
-    images: [
-      {
-        url: "/PayToCommit-OpenGraph2.png?v=20260311a",
-        width: 2750,
-        height: 1536,
-        alt: "PayToCommit social preview",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "PayToCommit - Get Paid To Do What You Said You'll Do",
-    description:
-      "The commitment market for daily habits, serious goals, proof review, and visible results.",
-    images: ["/PayToCommit-OpenGraph2.png?v=20260311a"],
-  },
+  shortcut: ["/paytocommit-tab.ico?v=20260309c"],
+  apple: [
+    {
+      url: "/apple-touch-icon.png?v=20260309c",
+      type: "image/png",
+      sizes: "180x180",
+    },
+  ],
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const host = (await headers()).get("host");
+  const hostMode = getHostModeFromHost(host);
+
+  if (hostMode === "ruzomi") {
+    return {
+      metadataBase: new URL("https://ruzomi.com"),
+      manifest: "/site.webmanifest?v=20260309c",
+      title: {
+        default: "Ruzomi - The Network Around Every Commitment Market",
+        template: "%s - Ruzomi",
+      },
+      icons: sharedIcons,
+      description:
+        "Ruzomi is the network around every commitment market, with joined channels, direct sparks, result artifacts, and live follow-through across the markets you care about.",
+      keywords: [
+        "ruzomi",
+        "commitment network",
+        "social accountability",
+        "commitment channels",
+        "direct sparks",
+        "result artifacts",
+        "follow-through network",
+      ],
+      openGraph: {
+        title: "Ruzomi - The Network Around Every Commitment Market",
+        description:
+          "Open the live network around commitment markets, follow direct sparks, track result artifacts, and stay inside the channels tied to what you joined.",
+        url: "https://ruzomi.com",
+        siteName: "Ruzomi",
+        type: "website",
+        images: [
+          {
+            url: "/PayToCommit-OpenGraph2.png?v=20260311a",
+            width: 2750,
+            height: 1536,
+            alt: "Ruzomi social preview",
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Ruzomi - The Network Around Every Commitment Market",
+        description:
+          "The social network for joined markets, direct sparks, result artifacts, and follow-through that stays visible after the stake.",
+        images: ["/PayToCommit-OpenGraph2.png?v=20260311a"],
+      },
+    };
+  }
+
+  return {
+    metadataBase: new URL("https://paytocommit.com"),
+    manifest: "/site.webmanifest?v=20260309c",
+    title: {
+      default: "PayToCommit - Get Paid To Do What You Said You'll Do",
+      template: "%s - PayToCommit",
+    },
+    icons: sharedIcons,
+    description:
+      "PayToCommit is the commitment market where people put money behind what they said they would do, submit proof by the deadline, and close the loop with a visible result.",
+    keywords: [
+      "commitment markets",
+      "accountability app",
+      "habit commitment",
+      "daily commitment pools",
+      "proof-based commitments",
+      "get paid to do what you said you'll do",
+      "personal accountability",
+      "commitment pool",
+    ],
+    openGraph: {
+      title: "PayToCommit - Get Paid To Do What You Said You'll Do",
+      description:
+        "Open commitment pools across fitness, work, home, learning, money, and daily life. Join before the deadline, submit proof, and close with a visible result.",
+      url: "https://paytocommit.com",
+      siteName: "PayToCommit",
+      type: "website",
+      images: [
+        {
+          url: "/PayToCommit-OpenGraph2.png?v=20260311a",
+          width: 2750,
+          height: 1536,
+          alt: "PayToCommit social preview",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "PayToCommit - Get Paid To Do What You Said You'll Do",
+      description:
+        "The commitment market for daily habits, serious goals, proof review, and visible results.",
+      images: ["/PayToCommit-OpenGraph2.png?v=20260311a"],
+    },
+  };
+}
 
 export default function RootLayout({
   children,

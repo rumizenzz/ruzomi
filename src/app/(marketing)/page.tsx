@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 
+import { RuzomiScreen } from "@/components/ruzomi-screen";
 import { HeroMarketForge } from "@/components/hero-market-forge";
 import { MarketTrendChart } from "@/components/market-trend-chart";
 import { PoolBoard } from "@/components/pool-board";
 import { QuickstartCompactCard } from "@/components/quickstart-compact-card";
 import { GlassPanel, LedgerTable } from "@/components/surfaces";
+import { getGalactusAccessState } from "@/lib/galactus-access";
+import { getHostModeFromHost } from "@/lib/host-mode";
 import { getRenderableGifUrl } from "@/lib/media";
 import { sparkFeed as fallbackSparkFeed } from "@/lib/mock-data";
 import {
@@ -22,25 +26,53 @@ import { getQuickstartState } from "@/lib/quickstart";
 import { getAuthenticatedSupabaseUser, toAuthenticatedAppSessionToken } from "@/lib/supabase/authenticated-user";
 import type { CommitmentPool, PoolMessage } from "@/lib/types";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "PayToCommit - Get Paid To Do What You Said You'll Do",
-  },
-  description:
-    "Search live Commitment Markets, lock in a stake, submit proof from the mobile app, and follow every result in public.",
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: "PayToCommit - Get Paid To Do What You Said You'll Do",
-    description: "Live Commitment Markets with proof, payout, Spark discussion, and public result history.",
-    url: "https://paytocommit.com",
-  },
-  twitter: {
-    title: "PayToCommit - Get Paid To Do What You Said You'll Do",
-    description: "Search live markets, lock in a stake, submit proof, and follow every close.",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const hostMode = getHostModeFromHost((await headers()).get("host"));
+
+  if (hostMode === "ruzomi") {
+    return {
+      title: {
+        absolute: "Ruzomi - The Network Around Every Commitment Market",
+      },
+      description:
+        "Open the live Ruzomi network for direct sparks, joined-market channels, result artifacts, and verified follow-through tied to every commitment market.",
+      alternates: {
+        canonical: "/",
+      },
+      openGraph: {
+        title: "Ruzomi - The Network Around Every Commitment Market",
+        description:
+          "Follow joined-market channels, direct sparks, result artifacts, and the live network around every commitment market.",
+        url: "https://ruzomi.com",
+      },
+      twitter: {
+        title: "Ruzomi - The Network Around Every Commitment Market",
+        description:
+          "The live network around every commitment market, with joined channels, direct sparks, and result artifacts.",
+      },
+    };
+  }
+
+  return {
+    title: {
+      absolute: "PayToCommit - Get Paid To Do What You Said You'll Do",
+    },
+    description:
+      "Search live Commitment Markets, lock in a stake, submit proof from the mobile app, and follow every result in public.",
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      title: "PayToCommit - Get Paid To Do What You Said You'll Do",
+      description: "Live Commitment Markets with proof, payout, Spark discussion, and public result history.",
+      url: "https://paytocommit.com",
+    },
+    twitter: {
+      title: "PayToCommit - Get Paid To Do What You Said You'll Do",
+      description: "Search live markets, lock in a stake, submit proof, and follow every close.",
+    },
+  };
+}
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -72,9 +104,40 @@ function initialsFromName(name: string) {
 }
 
 export default async function HomePage() {
+  const hostMode = getHostModeFromHost((await headers()).get("host"));
   const authUser = await getAuthenticatedSupabaseUser();
   const shouldShowQuickstart = Boolean(authUser?.email_confirmed_at);
   const sessionToken = authUser ? toAuthenticatedAppSessionToken(authUser.id) : null;
+
+  if (hostMode === "ruzomi") {
+    const [siteState, walletState, sparkFeed, eligibilityState] = await Promise.all([
+      getSiteState(sessionToken),
+      getWalletState(sessionToken),
+      listSparkFeed(sessionToken),
+      getGenerationEligibilityStateForSession(sessionToken),
+    ]);
+
+    const galactusAccess = getGalactusAccessState(eligibilityState, "support", "/");
+    const quickstartState =
+      walletState.viewer && authUser?.email_confirmed_at
+        ? getQuickstartState(walletState, eligibilityState, "/")
+        : null;
+
+    return (
+      <RuzomiScreen
+        galactusAccess={galactusAccess}
+        quickstartState={quickstartState}
+        selectedChannel="global"
+        selectedDmHandle={null}
+        selectedLane="feed"
+        shareTicketId={null}
+        siteState={siteState}
+        sparkFeed={sparkFeed}
+        walletState={walletState}
+      />
+    );
+  }
+
   const [siteState, pools, sparkFeed, networkLedger, chains] = await Promise.all([
     getSiteState(null),
     listPools(),

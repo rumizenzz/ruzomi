@@ -11,13 +11,21 @@ import { CommitmentMarketsPopover } from "@/components/commitment-markets-popove
 import { SiteStateContext, useLiveSiteState } from "@/components/live-data-hooks";
 import { MarketingHeaderAccount } from "@/components/marketing-header-account";
 import { ThemeToggle } from "@/components/theme-toggle";
+import type { HostMode } from "@/lib/host-mode";
 import { footerLinks } from "@/lib/mock-data";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import type { SiteState } from "@/lib/types";
 
-const primaryLinks = [
+const defaultPrimaryLinks = [
   { href: "/chains", label: "Chains", active: (pathname: string) => pathname.startsWith("/chains") },
   { href: "/spark", label: "Spark", active: (pathname: string) => pathname.startsWith("/spark") },
+  { href: "/app", label: "My Portfolio", active: (pathname: string) => pathname.startsWith("/app") },
+];
+
+const ruzomiPrimaryLinks = [
+  { href: "/pools", label: "Markets", active: (pathname: string) => pathname.startsWith("/pools") },
+  { href: "/ruzomi?lane=direct", label: "Direct Sparks", active: (pathname: string) => pathname.startsWith("/ruzomi") },
+  { href: "/ruzomi?lane=artifacts", label: "Artifacts", active: (pathname: string) => pathname.startsWith("/ruzomi") },
   { href: "/app", label: "My Portfolio", active: (pathname: string) => pathname.startsWith("/app") },
 ];
 
@@ -37,9 +45,11 @@ const menuLinks = [
 
 export function MarketingShell({
   children,
+  hostMode,
   initialSiteState,
 }: {
   children: React.ReactNode;
+  hostMode: HostMode;
   initialSiteState: SiteState;
 }) {
   const pathname = usePathname();
@@ -47,6 +57,7 @@ export function MarketingShell({
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
+  const isRuzomiHost = hostMode === "ruzomi";
   const isStandaloneRoute =
     pathname === "/login" ||
     pathname === "/signup" ||
@@ -88,9 +99,13 @@ export function MarketingShell({
   }, [supabase]);
 
   const visibleMenuLinks = useMemo(
-    () => menuLinks.filter((link) => link.href !== "/quickstart" || isEmailConfirmed),
-    [isEmailConfirmed],
+    () =>
+      menuLinks
+        .filter((link) => link.href !== "/quickstart" || isEmailConfirmed)
+        .filter((link) => !(isRuzomiHost && link.href === "/ruzomi")),
+    [isEmailConfirmed, isRuzomiHost],
   );
+  const primaryLinks = isRuzomiHost ? ruzomiPrimaryLinks : defaultPrimaryLinks;
 
   return (
     <SiteStateContext.Provider value={siteState}>
@@ -103,12 +118,30 @@ export function MarketingShell({
         <header className="marketing-header marketing-header-dark">
           <div className="content-wrap marketing-header-stack marketing-header-stack-dashboard">
             <div className={`dashboard-shell-bar ${hideHeaderSearch ? "dashboard-shell-bar-no-search" : ""}`}>
-              <Link aria-label="PayToCommit home" className="brand-home-link brand-home-link-shell" href="/">
-                <BrandLockup compact />
+              <Link
+                aria-label={isRuzomiHost ? "Ruzomi home" : "PayToCommit home"}
+                className="brand-home-link brand-home-link-shell"
+                href="/"
+              >
+                <BrandLockup compact product={isRuzomiHost ? "ruzomi" : "paytocommit"} />
               </Link>
 
               <nav aria-label="Primary" className="nav-links nav-links-primary shell-primary-nav dashboard-nav">
-                <CommitmentMarketsPopover liveCount={siteState.livePoolCount} loggedIn={isAuthenticated} pathname={pathname} />
+                {isRuzomiHost ? (
+                  <Link
+                    className={`nav-link nav-link-shell ${pathname.startsWith("/ruzomi") ? "is-active" : ""}`}
+                    href="/ruzomi"
+                  >
+                    <span>Network</span>
+                    <span className="nav-link-count nav-link-count-live">{siteState.liveChannelCount}</span>
+                  </Link>
+                ) : (
+                  <CommitmentMarketsPopover
+                    liveCount={siteState.livePoolCount}
+                    loggedIn={isAuthenticated}
+                    pathname={pathname}
+                  />
+                )}
                 {primaryLinks.map((link) => {
                   const isActive = link.active(pathname);
                   const href =
@@ -130,12 +163,21 @@ export function MarketingShell({
               </nav>
 
               {!hideHeaderSearch ? (
-                <form action="/pools" className="shell-search dashboard-shell-search" role="search">
+                <form
+                  action={isRuzomiHost ? "/ruzomi" : "/pools"}
+                  className="shell-search dashboard-shell-search"
+                  role="search"
+                >
                   <Search size={16} />
                   <label className="sr-only" htmlFor="market-search">
-                    Commit on anything
+                    {isRuzomiHost ? "Search channels, sparks, or markets" : "Commit on anything"}
                   </label>
-                  <input id="market-search" name="q" placeholder="Commit on anything" type="search" />
+                  <input
+                    id="market-search"
+                    name="q"
+                    placeholder={isRuzomiHost ? "Search channels, sparks, or markets" : "Commit on anything"}
+                    type="search"
+                  />
                 </form>
               ) : null}
 

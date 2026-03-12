@@ -1,0 +1,55 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ruzomi-netlify-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pull Netlify environment
+        run: |
+          npx netlify env:list --json > netlify-env.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          env = json.loads(Path("netlify-env.json").read_text())
+          lines = []
+          for key, value in sorted(env.items()):
+            if value is None:
+              continue
+            safe = str(value).replace("\\", "\\\\").replace("\n", "\\n")
+            lines.append(f"{key}={safe}")
+
+          Path(".env.production.local").write_text("\n".join(lines) + "\n")
+          PY
+
+      - name: Deploy production
+        run: npx netlify deploy --build --prod --message "GitHub Actions deploy"

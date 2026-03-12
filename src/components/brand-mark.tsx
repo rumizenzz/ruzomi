@@ -19,20 +19,30 @@ export function BrandMark() {
 
 export function BrandLockup({
   compact = false,
+  product = "paytocommit",
   subtitle,
 }: {
   compact?: boolean;
+  product?: "paytocommit" | "ruzomi";
   subtitle?: string;
 }) {
+  const isRuzomi = product === "ruzomi";
+
   return (
     <span className={clsx("brand-lockup", compact && "brand-lockup-compact")}>
       <BrandMark />
       <span className="brand-wordmark">
-        <span aria-label="PayToCommit" className="brand-title">
-          <span className="brand-title-main">PAY</span>
-          <span className="brand-title-accent">TO</span>
-          <span className="brand-title-main">COMMIT</span>
-        </span>
+        {isRuzomi ? (
+          <span aria-label="Ruzomi" className="brand-title">
+            <span className="brand-title-main">RUZOMI</span>
+          </span>
+        ) : (
+          <span aria-label="PayToCommit" className="brand-title">
+            <span className="brand-title-main">PAY</span>
+            <span className="brand-title-accent">TO</span>
+            <span className="brand-title-main">COMMIT</span>
+          </span>
+        )}
         {subtitle ? <span className="brand-subtitle">{subtitle}</span> : null}
       </span>
     </span>

@@ -16,6 +16,7 @@ import { InviteLoopCard } from "@/components/invite-loop-card";
 import { ProfilePeekLink } from "@/components/profile-peek-link";
 import { QuickstartCompactCard } from "@/components/quickstart-compact-card";
 import { ResultCardStack } from "@/components/result-card-stack";
+import { getRenderableGifUrl } from "@/lib/media";
 import { buildShareCampaignText } from "@/lib/share-campaign";
 import type { QuickstartState } from "@/lib/quickstart";
 import type {
@@ -607,7 +608,10 @@ export function RuzomiScreen({
                 )
               ) : visibleFeed.length ? (
                 <div className="ruzomi-feed-list">
-                  {visibleFeed.map((message) => (
+                  {visibleFeed.map((message) => {
+                    const gifUrl = getRenderableGifUrl(message.tenorGifUrl);
+
+                    return (
                     <article key={message.id} className="ruzomi-feed-card">
                       <div className="ruzomi-feed-head">
                         <div>
@@ -631,13 +635,13 @@ export function RuzomiScreen({
                         <span className="mono-label">{message.createdAt}</span>
                       </div>
                       <p className="ruzomi-feed-body">{message.body}</p>
-                      {message.tenorGifUrl ? (
+                      {gifUrl ? (
                         <div className="ruzomi-gif-shell">
                           <Image
                             alt=""
                             fill
                             sizes="(max-width: 768px) 100vw, 360px"
-                            src={message.tenorGifUrl}
+                            src={gifUrl}
                             unoptimized
                           />
                         </div>
@@ -648,7 +652,8 @@ export function RuzomiScreen({
                         <span>{message.hearts} hearts</span>
                       </div>
                     </article>
-                  ))}
+                  );
+                  })}
                 </div>
               ) : (
                 <div className="ruzomi-empty-card">
