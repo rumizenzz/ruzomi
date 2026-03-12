@@ -9,16 +9,36 @@ const STATUS_HOSTS = new Set(["status.paytocommit.com", "www.status.paytocommit.
 const DEVELOPER_HOSTS = new Set(["developers.paytocommit.com", "www.developers.paytocommit.com"]);
 const PLATFORM_HOSTS = new Set(["platform.paytocommit.com", "www.platform.paytocommit.com"]);
 const RUZOMI_PASSTHROUGH_PREFIXES = [
+  "/api",
+  "/app",
+  "/auth",
+  "/chains",
+  "/contact",
+  "/developers",
+  "/docs",
+  "/faqs",
+  "/faq",
+  "/fees",
   "/ruzomi",
   "/login",
   "/signup",
   "/forgot-password",
   "/set-new-password",
+  "/help-center",
+  "/leaderboard",
+  "/legal",
+  "/mobile",
+  "/pools",
+  "/privacy",
   "/profiles",
-  "/api",
-  "/auth",
   "/quickstart",
+  "/reliability",
+  "/sales",
+  "/security",
   "/settings",
+  "/spark",
+  "/status",
+  "/terms",
 ];
 
 function withSessionCookie(request: NextRequest, response: NextResponse) {
