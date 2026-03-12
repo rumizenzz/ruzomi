@@ -1,0 +1,21 @@
+{
+  "name": "PayToCommit",
+  "short_name": "PayToCommit",
+  "description": "Commitment Markets with proof, payout, and visible results.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#061423",
+  "theme_color": "#0ef0ff",
+  "icons": [
+    {
+      "src": "/paytocommit-tab-32x32.png?v=20260309c",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png?v=20260309c",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

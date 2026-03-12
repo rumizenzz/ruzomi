@@ -1,0 +1,27 @@
+{
+  "name": "paytocommit-mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo/AppEntry",
+  "scripts": {
+    "dev": "expo start",
+    "ios": "expo start --ios",
+    "android": "expo start --android",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "expo": "55.0.6",
+    "expo-contacts": "55.0.8",
+    "expo-haptics": "55.0.8",
+    "expo-linear-gradient": "55.0.8",
+    "expo-linking": "55.0.7",
+    "expo-status-bar": "55.0.4",
+    "react": "19.2.4",
+    "react-native": "0.84.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "typescript": "^5.9.3"
+  }
+}

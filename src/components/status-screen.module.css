@@ -1,0 +1,543 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(21, 214, 255, 0.17), transparent 22%),
+    radial-gradient(circle at top right, rgba(132, 111, 255, 0.16), transparent 20%),
+    linear-gradient(180deg, #07131f 0%, #081a28 44%, #071019 100%);
+  color: #f2fbff;
+}
+
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(88, 181, 214, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 181, 214, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  opacity: 0.22;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 92%);
+}
+
+.wrap {
+  position: relative;
+  width: min(1320px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 3.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.pillLink,
+.ghostLink,
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.pillLink {
+  background: linear-gradient(135deg, rgba(56, 245, 255, 0.2), rgba(151, 115, 255, 0.2));
+  border: 1px solid rgba(122, 245, 255, 0.34);
+  box-shadow: 0 0 20px rgba(34, 216, 255, 0.16);
+}
+
+.ghostLink,
+.backLink {
+  border: 1px solid rgba(131, 211, 239, 0.16);
+  background: rgba(6, 21, 33, 0.76);
+  color: rgba(216, 236, 244, 0.92);
+}
+
+.pillLink:hover,
+.ghostLink:hover,
+.backLink:hover {
+  transform: translateY(-1px);
+  border-color: rgba(131, 245, 255, 0.42);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.95fr);
+  gap: 1.25rem;
+  padding: 1.45rem;
+  border-radius: 36px;
+  border: 1px solid rgba(124, 228, 255, 0.16);
+  background:
+    radial-gradient(circle at top right, rgba(111, 120, 255, 0.18), transparent 24%),
+    linear-gradient(180deg, rgba(7, 24, 38, 0.96), rgba(4, 14, 23, 0.96));
+  box-shadow:
+    0 0 0 1px rgba(111, 255, 245, 0.06),
+    0 32px 80px rgba(2, 9, 17, 0.42),
+    0 0 46px rgba(59, 214, 255, 0.12);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border-radius: 26px;
+  border: 1px solid rgba(189, 240, 255, 0.1);
+  pointer-events: none;
+}
+
+.heroMain,
+.heroSide {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  min-height: 34px;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(8, 26, 38, 0.72);
+  border: 1px solid rgba(116, 241, 255, 0.18);
+  color: rgba(218, 240, 248, 0.86);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.eyebrowDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #4bffbe;
+  box-shadow: 0 0 0 4px rgba(75, 255, 190, 0.15);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.07em;
+}
+
+.summary {
+  max-width: 52rem;
+  margin: 0;
+  color: rgba(199, 225, 236, 0.82);
+  font-size: 1.04rem;
+  line-height: 1.6;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.statCard,
+.maintenanceCard,
+.historyCard,
+.group,
+.component {
+  border-radius: 24px;
+  border: 1px solid rgba(123, 228, 255, 0.14);
+  background: rgba(5, 20, 32, 0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 18px 36px rgba(1, 8, 14, 0.25);
+}
+
+.statCard {
+  display: grid;
+  gap: 0.32rem;
+  padding: 1rem;
+}
+
+.statLabel {
+  color: rgba(169, 211, 226, 0.7);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.statValue {
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  font-weight: 700;
+}
+
+.statCopy {
+  color: rgba(193, 220, 231, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.heroSide {
+  align-content: start;
+}
+
+.maintenanceCard {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.1rem;
+}
+
+.maintenanceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sectionLabel {
+  color: rgba(183, 216, 228, 0.72);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.maintenanceWindow {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.maintenanceCopy {
+  color: rgba(197, 220, 230, 0.8);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.maintenanceList {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-left: 1.05rem;
+  color: rgba(213, 236, 244, 0.84);
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.statusPillOperational {
+  background: rgba(55, 255, 206, 0.12);
+  color: #85ffd2;
+  border: 1px solid rgba(55, 255, 206, 0.22);
+}
+
+.statusPillMaintenance {
+  background: rgba(255, 189, 82, 0.12);
+  color: #ffd08b;
+  border: 1px solid rgba(255, 189, 82, 0.22);
+}
+
+.statusPillDegraded {
+  background: rgba(255, 111, 135, 0.12);
+  color: #ff9fb1;
+  border: 1px solid rgba(255, 111, 135, 0.22);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.42fr);
+  gap: 1.25rem;
+  padding-top: 1.4rem;
+}
+
+.groups {
+  display: grid;
+  gap: 1rem;
+}
+
+.group {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+}
+
+.groupHead {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.groupTitle {
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: -0.04em;
+}
+
+.groupSummary {
+  margin: 0.35rem 0 0;
+  color: rgba(192, 220, 231, 0.76);
+  line-height: 1.55;
+}
+
+.componentList {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.component {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.componentTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.componentName {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.componentSummary {
+  margin: 0.28rem 0 0;
+  color: rgba(190, 220, 232, 0.76);
+  line-height: 1.55;
+}
+
+.componentMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  color: rgba(205, 231, 241, 0.84);
+  font-size: 0.88rem;
+}
+
+.componentMeta strong {
+  color: #f4fcff;
+}
+
+.historyBand {
+  display: grid;
+  grid-template-columns: repeat(30, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.historyPoint {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: rgba(74, 255, 197, 0.16);
+}
+
+.historyPointOperational {
+  background: linear-gradient(180deg, rgba(71, 255, 196, 0.85), rgba(34, 217, 255, 0.72));
+}
+
+.historyPointDegraded {
+  background: linear-gradient(180deg, rgba(255, 130, 148, 0.95), rgba(255, 192, 107, 0.72));
+}
+
+.sideRail {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.historyCard {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+}
+
+.historyList {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.incident {
+  display: grid;
+  gap: 0.8rem;
+  padding: 0.95rem;
+  border-radius: 22px;
+  border: 1px solid rgba(125, 229, 255, 0.12);
+  background: rgba(4, 15, 24, 0.74);
+}
+
+.incidentHead {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.incidentTitle {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.incidentWindow {
+  color: rgba(195, 222, 231, 0.72);
+  font-size: 0.88rem;
+}
+
+.incidentSummary {
+  margin: 0;
+  color: rgba(205, 230, 239, 0.8);
+  line-height: 1.55;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(125, 228, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(219, 241, 248, 0.86);
+  font-size: 0.8rem;
+}
+
+.updateList {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.update {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.updateTime {
+  color: rgba(175, 214, 227, 0.68);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.updateTitle {
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.updateBody {
+  color: rgba(198, 223, 233, 0.76);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-top: 1.3rem;
+  color: rgba(184, 216, 227, 0.72);
+  font-size: 0.88rem;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 1040px) {
+  .hero,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .statGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .wrap {
+    width: min(100% - 1rem, 100%);
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .header,
+  .groupHead,
+  .incidentHead,
+  .footer {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .headerActions,
+  .footerLinks {
+    justify-content: stretch;
+  }
+
+  .pillLink,
+  .ghostLink,
+  .backLink {
+    width: 100%;
+  }
+
+  .hero,
+  .group,
+  .historyCard {
+    padding: 1rem;
+    border-radius: 28px;
+  }
+
+  .title {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .statGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .componentTop {
+    grid-template-columns: 1fr;
+  }
+}
