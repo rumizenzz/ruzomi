@@ -24,8 +24,8 @@ const defaultPrimaryLinks = [
 
 const ruzomiPrimaryLinks = [
   { href: "/pools", label: "Markets", active: (pathname: string) => pathname.startsWith("/pools") },
-  { href: "/ruzomi?lane=direct", label: "Direct Sparks", active: (pathname: string) => pathname.startsWith("/ruzomi") },
-  { href: "/ruzomi?lane=artifacts", label: "Artifacts", active: (pathname: string) => pathname.startsWith("/ruzomi") },
+  { href: "/?lane=direct", label: "Direct Sparks", active: (pathname: string) => pathname.startsWith("/ruzomi") || pathname === "/" },
+  { href: "/?lane=artifacts", label: "Artifacts", active: (pathname: string) => pathname.startsWith("/ruzomi") || pathname === "/" },
   { href: "/app", label: "My Portfolio", active: (pathname: string) => pathname.startsWith("/app") },
 ];
 
@@ -39,7 +39,7 @@ const menuLinks = [
   { href: "/fees", label: "Fees" },
   { href: "/legal", label: "Legal" },
   { href: "/help-center", label: "Help Center" },
-  { href: "/ruzomi", label: "Ruzomi" },
+  { href: "/", label: "Ruzomi" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -130,7 +130,7 @@ export function MarketingShell({
                 {isRuzomiHost ? (
                   <Link
                     className={`nav-link nav-link-shell ${pathname.startsWith("/ruzomi") ? "is-active" : ""}`}
-                    href="/ruzomi"
+                    href="/"
                   >
                     <span>Network</span>
                     <span className="nav-link-count nav-link-count-live">{siteState.liveChannelCount}</span>

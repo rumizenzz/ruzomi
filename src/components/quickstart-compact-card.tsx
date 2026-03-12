@@ -121,7 +121,7 @@ export function QuickstartCompactCard({
             <strong>Post your first commitment on Ruzomi</strong>
             <p className="detail-text">Say it in your own words, keep it natural, and make the commitment visible to the people following your lane.</p>
           </div>
-          <Link className="action-secondary quickstart-social-link" href="/ruzomi">
+          <Link className="action-secondary quickstart-social-link" href="/">
             Open Ruzomi
           </Link>
         </div>
@@ -208,7 +208,7 @@ export function QuickstartCompactCard({
           <strong>Post your first commitment on Ruzomi</strong>
           <p className="detail-text">Keep the post in your own voice. The point is to make the commitment feel social, not scripted.</p>
         </div>
-        <Link className="action-secondary quickstart-social-link" href="/ruzomi">
+        <Link className="action-secondary quickstart-social-link" href="/">
           Open Ruzomi
         </Link>
       </div>

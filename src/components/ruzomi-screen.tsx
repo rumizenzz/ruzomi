@@ -85,7 +85,7 @@ function buildRuzomiHref({
   }
 
   const query = params.toString();
-  return query ? `/ruzomi?${query}` : "/ruzomi";
+  return query ? `/?${query}` : "/";
 }
 
 function buildDirectSparkThreads(messages: PoolMessage[]) {
@@ -284,7 +284,7 @@ export function RuzomiScreen({
     <section className="auth-screen ruzomi-screen">
       <div className="ruzomi-shell">
         <aside className="ruzomi-left-rail">
-          <Link aria-label="Ruzomi home" className="ruzomi-logo" href="/ruzomi">
+          <Link aria-label="Ruzomi home" className="ruzomi-logo" href="/">
             <span>RUZOMI</span>
           </Link>
 
@@ -369,7 +369,7 @@ export function RuzomiScreen({
                   variant="pill"
                 />
               ) : (
-                <Link className="ruzomi-topbar-link" href="/login?next=%2Fruzomi">
+                <Link className="ruzomi-topbar-link" href="/login?next=%2F">
                   <Bell aria-hidden="true" size={16} />
                   Log in to post
                 </Link>
@@ -405,10 +405,10 @@ export function RuzomiScreen({
                     </p>
                   </div>
                   <div className="button-row docs-ai-actions">
-                    <Link className="action-primary" href="/login?next=%2Fruzomi">
+                    <Link className="action-primary" href="/login?next=%2F">
                       Log in
                     </Link>
-                    <Link className="action-secondary" href="/signup?next=%2Fruzomi">
+                    <Link className="action-secondary" href="/signup?next=%2F">
                       Sign up
                     </Link>
                   </div>

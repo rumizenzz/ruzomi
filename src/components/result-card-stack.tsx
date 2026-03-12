@@ -109,7 +109,7 @@ export function ResultCardStack({
                 <Copy size={16} />
                 Copy share line
               </button>
-              <a className="result-card-action ghost" href={`/ruzomi?lane=artifacts&share=${card.ticketId}`}>
+              <a className="result-card-action ghost" href={`/?lane=artifacts&share=${card.ticketId}`}>
                 <Sparkles size={16} />
                 Share to Ruzomi
               </a>
