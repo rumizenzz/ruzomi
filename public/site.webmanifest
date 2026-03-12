@@ -1,7 +1,7 @@
 {
-  "name": "PayToCommit",
-  "short_name": "PayToCommit",
-  "description": "Commitment Markets with proof, payout, and visible results.",
+  "name": "Ruzomi",
+  "short_name": "Ruzomi",
+  "description": "The network around every commitment market.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#061423",

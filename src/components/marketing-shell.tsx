@@ -12,6 +12,7 @@ import { SiteStateContext, useLiveSiteState } from "@/components/live-data-hooks
 import { MarketingHeaderAccount } from "@/components/marketing-header-account";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { HostMode } from "@/lib/host-mode";
+import { buildHostedHref, buildRuzomiHref } from "@/lib/host-links";
 import { footerLinks } from "@/lib/mock-data";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import type { SiteState } from "@/lib/types";
@@ -23,25 +24,59 @@ const defaultPrimaryLinks = [
 ];
 
 const ruzomiPrimaryLinks = [
-  { href: "/pools", label: "Markets", active: (pathname: string) => pathname.startsWith("/pools") },
-  { href: "/?lane=direct", label: "Direct Sparks", active: (pathname: string) => pathname.startsWith("/ruzomi") || pathname === "/" },
-  { href: "/?lane=artifacts", label: "Artifacts", active: (pathname: string) => pathname.startsWith("/ruzomi") || pathname === "/" },
-  { href: "/app", label: "My Portfolio", active: (pathname: string) => pathname.startsWith("/app") },
+  { href: buildHostedHref("paytocommit", "/pools"), label: "Markets", active: (pathname: string) => pathname.startsWith("/pools") },
+  { href: buildRuzomiHref("/?lane=direct"), label: "Direct Sparks", active: (pathname: string) => pathname.startsWith("/ruzomi") },
+  { href: buildRuzomiHref("/?lane=artifacts"), label: "Artifacts", active: (pathname: string) => pathname.startsWith("/ruzomi") },
+  { href: buildHostedHref("paytocommit", "/app"), label: "My Portfolio", active: (pathname: string) => pathname.startsWith("/app") },
 ];
 
 const menuLinks = [
   { href: "/leaderboard", label: "Leaderboard" },
-  { href: "/developers", label: "Developers" },
-  { href: "/docs", label: "Docs" },
+  { href: buildHostedHref("platform"), label: "Platform" },
+  { href: buildHostedHref("developers"), label: "Developers" },
+  { href: buildHostedHref("docs"), label: "Docs" },
+  { href: buildHostedHref("status"), label: "Status" },
   { href: "/faqs", label: "FAQs" },
   { href: "/quickstart", label: "Quickstart" },
   { href: "/sales", label: "Sales" },
   { href: "/fees", label: "Fees" },
   { href: "/legal", label: "Legal" },
   { href: "/help-center", label: "Help Center" },
-  { href: "/", label: "Ruzomi" },
+  { href: buildRuzomiHref(), label: "Ruzomi" },
   { href: "/contact", label: "Contact" },
 ];
+
+function normalizeHostedPathname(pathname: string, hostMode: HostMode) {
+  if (hostMode === "ruzomi" && !pathname.startsWith("/ruzomi")) {
+    return pathname === "/" ? "/ruzomi" : `/ruzomi${pathname}`;
+  }
+
+  if ((hostMode === "developers" || hostMode === "platform") && !pathname.startsWith("/developers")) {
+    return pathname === "/" ? "/developers" : `/developers${pathname}`;
+  }
+
+  if (hostMode === "status" && !pathname.startsWith("/status")) {
+    return pathname === "/" ? "/status" : `/status${pathname}`;
+  }
+
+  if (hostMode === "docs" && !pathname.startsWith("/docs")) {
+    return pathname === "/" ? "/docs" : `/docs${pathname}`;
+  }
+
+  return pathname;
+}
+
+function resolveHostAwareHref(href: string, hostMode: HostMode) {
+  if (href.startsWith("http://") || href.startsWith("https://")) {
+    return href;
+  }
+
+  if (hostMode !== "paytocommit" && href.startsWith("/")) {
+    return buildHostedHref("paytocommit", href);
+  }
+
+  return href;
+}
 
 export function MarketingShell({
   children,
@@ -53,23 +88,24 @@ export function MarketingShell({
   initialSiteState: SiteState;
 }) {
   const pathname = usePathname();
+  const normalizedPathname = useMemo(() => normalizeHostedPathname(pathname, hostMode), [pathname, hostMode]);
   const siteState = useLiveSiteState(initialSiteState);
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
   const isRuzomiHost = hostMode === "ruzomi";
   const isStandaloneRoute =
-    pathname === "/login" ||
-    pathname === "/signup" ||
-    pathname === "/forgot-password" ||
-    pathname === "/set-new-password" ||
-    pathname === "/help-center" ||
-    pathname === "/quickstart" ||
-    pathname === "/sales" ||
-    pathname === "/ruzomi" ||
-    pathname === "/faqs" ||
-    pathname === "/faq";
-  const hideHeaderSearch = pathname === "/" || isStandaloneRoute;
+    normalizedPathname === "/login" ||
+    normalizedPathname === "/signup" ||
+    normalizedPathname === "/forgot-password" ||
+    normalizedPathname === "/set-new-password" ||
+    normalizedPathname === "/help-center" ||
+    normalizedPathname === "/quickstart" ||
+    normalizedPathname === "/sales" ||
+    normalizedPathname === "/ruzomi" ||
+    normalizedPathname === "/faqs" ||
+    normalizedPathname === "/faq";
+  const hideHeaderSearch = normalizedPathname === "/" || isStandaloneRoute;
 
   useEffect(() => {
     if (!supabase) {
@@ -102,7 +138,7 @@ export function MarketingShell({
     () =>
       menuLinks
         .filter((link) => link.href !== "/quickstart" || isEmailConfirmed)
-        .filter((link) => !(isRuzomiHost && link.href === "/ruzomi")),
+        .filter((link) => !(isRuzomiHost && link.label === "Ruzomi")),
     [isEmailConfirmed, isRuzomiHost],
   );
   const primaryLinks = isRuzomiHost ? ruzomiPrimaryLinks : defaultPrimaryLinks;
@@ -129,8 +165,8 @@ export function MarketingShell({
               <nav aria-label="Primary" className="nav-links nav-links-primary shell-primary-nav dashboard-nav">
                 {isRuzomiHost ? (
                   <Link
-                    className={`nav-link nav-link-shell ${pathname.startsWith("/ruzomi") ? "is-active" : ""}`}
-                    href="/"
+                    className={`nav-link nav-link-shell ${normalizedPathname.startsWith("/ruzomi") ? "is-active" : ""}`}
+                    href={buildRuzomiHref()}
                   >
                     <span>Network</span>
                     <span className="nav-link-count nav-link-count-live">{siteState.liveChannelCount}</span>
@@ -139,11 +175,11 @@ export function MarketingShell({
                   <CommitmentMarketsPopover
                     liveCount={siteState.livePoolCount}
                     loggedIn={isAuthenticated}
-                    pathname={pathname}
+                    pathname={normalizedPathname}
                   />
                 )}
                 {primaryLinks.map((link) => {
-                  const isActive = link.active(pathname);
+                  const isActive = link.active(normalizedPathname);
                   const href =
                     link.label === "My Portfolio" && !isAuthenticated ? buildAuthHref("login", "/app") : link.href;
 
@@ -164,7 +200,7 @@ export function MarketingShell({
 
               {!hideHeaderSearch ? (
                 <form
-                  action={isRuzomiHost ? "/ruzomi" : "/pools"}
+                  action={isRuzomiHost ? "/" : "/pools"}
                   className="shell-search dashboard-shell-search"
                   role="search"
                 >
@@ -209,7 +245,7 @@ export function MarketingShell({
                         </div>
                         <div className="console-link-grid">
                           {visibleMenuLinks.map((link) => (
-                            <Link key={link.href} className="console-link" href={link.href}>
+                            <Link key={link.href} className="console-link" href={resolveHostAwareHref(link.href, hostMode)}>
                               <span>{link.label}</span>
                             </Link>
                           ))}
@@ -223,7 +259,11 @@ export function MarketingShell({
                         </div>
                         <div className="console-category-grid">
                           {siteState.categories.slice(0, 8).map((category) => (
-                            <Link key={category.anchor} className="console-category-link" href={`/pools#${category.anchor}`}>
+                            <Link
+                              key={category.anchor}
+                              className="console-category-link"
+                              href={resolveHostAwareHref(`/pools#${category.anchor}`, hostMode)}
+                            >
                               <span>{category.category}</span>
                               <strong>{category.liveCount || category.totalCount}</strong>
                             </Link>
