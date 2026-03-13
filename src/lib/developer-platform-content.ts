@@ -199,6 +199,497 @@ export const developerPortalPages: DocPage[] = [
     },
   },
   {
+    slug: ["roles-permissions"],
+    group: "Organization Operations",
+    title: "Roles and Permissions",
+    eyebrow: "Org controls",
+    summary:
+      "Define owner, admin, manager, analyst, employee, and contractor access without collapsing the organization into one permission set.",
+    searchTerms: [
+      "roles and permissions",
+      "organization roles",
+      "manager permissions",
+      "employee permissions",
+      "admin roles",
+      "workspace roles",
+    ],
+    sections: [
+      {
+        id: "role-boundaries",
+        title: "Role boundaries",
+        body: [
+          "Organization access should be explicit. Owners handle policy and billing, admins run rollout and approvals, managers review employee activity, analysts inspect reporting, and employees stay inside the views their role actually needs.",
+          "That keeps the enterprise workspace legible under real operating pressure and avoids the common failure mode where every person gets broad access because the system cannot express narrower lanes.",
+        ],
+      },
+      {
+        id: "scoped-work",
+        title: "Scoped work instead of one giant admin lane",
+        body: [
+          "Roles should shape what can be opened, what can be edited, and which alerts can be resolved. Employee approvals, billing exports, customer review, payroll rollout, and organization markets do not all belong to the same role by default.",
+          "The workspace should make those boundaries visible before anyone sends invites or changes visibility policy so the company understands who is allowed to do what.",
+        ],
+      },
+      {
+        id: "permission-audit",
+        title: "Permission audit trail",
+        body: [
+          "Every role change, scope reduction, and grant should stay tied to an audit event. That matters most during workforce launch, revocation, and restoration because the company needs a clean record of why access changed and who approved it.",
+          "A strong permission page does not just list roles. It explains the operational consequences of those roles and keeps that explanation attached to the current organization state.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Organization role matrix",
+      language: "json",
+      code: `{
+  "organization_id": "org_northstar_logistics",
+  "roles": [
+    "OrganizationOwner",
+    "OrganizationAdmin",
+    "Manager",
+    "Analyst",
+    "Employee"
+  ],
+  "permission_groups": {
+    "approvals": ["OrganizationOwner", "OrganizationAdmin", "Manager"],
+    "billing_exports": ["OrganizationOwner", "OrganizationAdmin", "Analyst"],
+    "employee_detail": ["OrganizationOwner", "OrganizationAdmin", "Manager"],
+    "workspace_settings": ["OrganizationOwner", "OrganizationAdmin"]
+  }
+}`,
+      note: "Roles should stay explicit, auditable, and tied directly to operating surfaces instead of hiding behind one shared admin state.",
+    },
+  },
+  {
+    slug: ["roles-permissions", "manager-control-pack"],
+    group: "Organization Operations",
+    title: "Manager Control Pack",
+    eyebrow: "Role detail",
+    summary:
+      "The scoped manager permission pack for team review, employee detail, approvals, continuity action, and organization-market oversight.",
+    searchTerms: [
+      "manager control pack",
+      "manager permission pack",
+      "team manager permissions",
+      "manager role detail",
+      "org manager controls",
+    ],
+    sections: [
+      {
+        id: "manager-scope",
+        title: "What managers can do",
+        body: [
+          "Managers need a narrow but powerful lane. They can review employee detail, handle team approvals, respond to continuity pressure, and monitor organization-market participation for their own teams.",
+          "They should not inherit the full workspace just because they need one operational slice. That boundary is what keeps the organization usable at real scale.",
+        ],
+      },
+      {
+        id: "manager-boundaries",
+        title: "What managers cannot do by default",
+        body: [
+          "Managers do not need unrestricted billing, unrestricted tenant settings, or broad audit-export authority by default. Those remain owner, admin, or analyst lanes unless policy expands them.",
+          "A good manager permission pack makes the allowed lane strong enough to operate daily without letting it collapse into one giant admin role.",
+        ],
+      },
+      {
+        id: "why-this-pack-exists",
+        title: "Why this pack exists",
+        body: [
+          "This detail page exists so org admins can explain exactly why a manager has a specific scope. That matters when visibility policy, continuity protections, and employee trust all depend on clear boundaries.",
+          "The manager pack should feel like a deliberate operational role, not a vague subset of admin access.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Manager control pack",
+      language: "json",
+      code: `{
+  "role": "Manager",
+  "permissions": [
+    "employee.detail.team_scoped",
+    "approval.review.team_scoped",
+    "continuity.restore.team_scoped",
+    "org_market.monitor.team_scoped"
+  ],
+  "restricted_permissions": [
+    "billing.export.global",
+    "workspace.settings.global",
+    "api_key.manage.global"
+  ]
+}`,
+      note: "A manager control pack should be strong enough to run a team lane without collapsing into full workspace admin access.",
+    },
+  },
+  {
+    slug: ["organization-hrs"],
+    group: "Organization Operations",
+    title: "Organization HRS Analytics",
+    eyebrow: "Integrity analytics",
+    summary:
+      "Review organization-level reliability, queue pressure, recoveries, and continuity behavior from one analytics surface.",
+    searchTerms: [
+      "organization hrs",
+      "organization integrity score",
+      "org analytics",
+      "org recoveries",
+      "queue pressure",
+      "reliability analytics",
+    ],
+    sections: [
+      {
+        id: "org-score-shape",
+        title: "What the organization score reflects",
+        body: [
+          "Organization HRS should not behave like a vanity badge. It should show how reliably the company handles its own rollout, approvals, continuity obligations, and organization-market participation over time.",
+          "That means the analytics surface needs gains, dips, recoveries, and plateaus, not just one flat number detached from real operating events.",
+        ],
+      },
+      {
+        id: "pressure-signals",
+        title: "Where pressure comes from",
+        body: [
+          "Approval delays, blocked employees with active commitments, continuity protection windows, and unresolved org-market misses should all be visible in the organization analytics lane where policy allows.",
+          "The goal is to make trust operational. A company should be able to see whether its own management behavior is helping or hurting the employee commitment system it asked people to join.",
+        ],
+      },
+      {
+        id: "manager-actions",
+        title: "What managers do next",
+        body: [
+          "Good analytics pages route directly into the queue, roster, continuity, and market lanes that can improve the score. This should feel like an operating surface for improvement, not an inert dashboard.",
+          "That also makes the score explainable. The company can see what changed, why it changed, and which next action is most likely to improve the trend.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Organization HRS trend payload",
+      language: "json",
+      code: `{
+  "organization_id": "org_northstar_logistics",
+  "hrs": 83,
+  "trend": "recovering",
+  "active_pressures": {
+    "pending_employee_approvals": 18,
+    "continuity_protection_windows": 7,
+    "org_market_misses": 2
+  },
+  "recent_events": [
+    "approval_backlog_cleared",
+    "continuity_access_restored",
+    "department_launch_completed"
+  ]
+}`,
+      note: "Organization HRS should be driven by visible operating signals and explainable improvement paths.",
+    },
+  },
+  {
+    slug: ["organization-alerts"],
+    group: "Organization Operations",
+    title: "Organization Alerts and Notifications",
+    eyebrow: "Org alerts",
+    summary:
+      "Track approval backlog, continuity risk, org-market deadlines, payroll rollout drift, and operator follow-up from one alert center.",
+    searchTerms: [
+      "organization alerts",
+      "organization notifications",
+      "approval backlog alerts",
+      "continuity risk alerts",
+      "org deadlines",
+      "operator notifications",
+    ],
+    sections: [
+      {
+        id: "alert-lanes",
+        title: "Alert lanes that matter",
+        body: [
+          "Organization alerts should group approval backlog, continuity deadlines, org-market launch changes, payroll rollout drift, and reporting readiness into clear operating lanes.",
+          "That keeps the workspace actionable instead of turning into one noisy stream of unrelated notifications.",
+        ],
+      },
+      {
+        id: "lightweight-operator-signal",
+        title: "Compact but high-signal",
+        body: [
+          "The alert center should stay compact and calm. Operators need to understand what changed, how urgent it is, and where to go next without reading a wall of status text.",
+          "This is where good enterprise tooling feels refined: strong grouping, clear severity, direct routing, and no wasted motion.",
+        ],
+      },
+      {
+        id: "alert-auditability",
+        title: "Alert history and routing",
+        body: [
+          "Alerts should stay tied to the organization, the affected workflow, and the next owner. They also need a record of when they opened, who resolved them, and whether the same issue is repeating.",
+          "That turns notifications into an operational memory instead of a disposable inbox.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Organization alert summary",
+      language: "json",
+      code: `{
+  "organization_id": "org_northstar_logistics",
+  "alerts": {
+    "approval_backlog": 4,
+    "continuity_deadlines": 3,
+    "payroll_rollout_gaps": 2,
+    "org_market_schedule_changes": 1
+  },
+  "next_owner": "ops@northstar.example"
+}`,
+      note: "Organization alerts should stay grouped, assigned, and directly connected to the workflow that can resolve them.",
+    },
+  },
+  {
+    slug: ["organization-alerts", "continuity-pressure"],
+    group: "Organization Operations",
+    title: "Continuity Pressure Alert",
+    eyebrow: "Alert detail",
+    summary:
+      "A focused alert lane for restore deadlines, active commitments at risk, and the org actions needed to protect continuity access.",
+    searchTerms: [
+      "continuity pressure",
+      "restore deadline alert",
+      "active commitment risk",
+      "continuity alert detail",
+      "organization restore pressure",
+    ],
+    sections: [
+      {
+        id: "why-this-alert-opens",
+        title: "Why this alert opens",
+        body: [
+          "Continuity pressure opens when an employee has active commitments and the organization has reduced or is trying to reduce the broader workspace access they would normally use.",
+          "The system should keep the employee inside the minimum required commitment lane, but the organization still needs to restore or resolve the broader situation before deadlines stack up.",
+        ],
+      },
+      {
+        id: "what-operators-review",
+        title: "What operators review",
+        body: [
+          "Operators should see the employee, the manager or admin owner, the active deadlines, and the minimum continuity lane still available to the employee.",
+          "That lets the organization act on the real problem instead of treating the alert like an abstract policy warning.",
+        ],
+      },
+      {
+        id: "what-happens-next",
+        title: "What happens next",
+        body: [
+          "The alert should route directly into restore access, queue review, or employee detail. It should never end as a dead message with no owner or next action.",
+          "This is the kind of detail that makes the org workspace feel operationally complete instead of decorative.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Continuity pressure payload",
+      language: "json",
+      code: `{
+  "organization_id": "org_northstar_logistics",
+  "alert_type": "continuity_pressure",
+  "active_employees": 7,
+  "nearest_restore_deadline": "2026-03-15T16:00:00Z",
+  "linked_queue_window": "northstar-q1-access-window"
+}`,
+      note: "Continuity alerts should tie deadlines, queue ownership, and employee protection into one clear operating record.",
+    },
+  },
+  {
+    slug: ["organization-workspace"],
+    group: "Organization Operations",
+    title: "Organization Workspace",
+    eyebrow: "Workspace control",
+    summary:
+      "The central operating view for company-managed employees, approvals, org markets, continuity protection, payroll rollout, and manager-owned team lanes.",
+    searchTerms: [
+      "organization workspace",
+      "enterprise dashboard",
+      "employee operations center",
+      "org workspace",
+      "company-managed workspace",
+      "team operations",
+    ],
+    sections: [
+      {
+        id: "workspace-purpose",
+        title: "What the organization workspace is for",
+        body: [
+          "The organization workspace is where a company actually runs its PayToCommit program. Employee approvals, manager team lanes, org-market launches, payroll-linked wallet rollout, and continuity protections should all be visible from one calm operating surface.",
+          "This keeps the company from bouncing between separate admin stubs when the real job is to understand employee activity, restore safe access, and keep organization programs moving.",
+        ],
+      },
+      {
+        id: "workspace-lanes",
+        title: "The lanes that belong together",
+        body: [
+          "The strongest workspace keeps the roster, queue, org markets, visibility policy, payroll-linked funding, and organization HRS pressure in one connected view. These are not unrelated subsystems; they shape the same employee experience.",
+          "That means the workspace should route smoothly into employee detail, manager-scoped team views, program economics, and report lanes without losing the current organization context.",
+        ],
+      },
+      {
+        id: "workspace-standard",
+        title: "What a serious organization workspace looks like",
+        body: [
+          "A serious workspace should feel like a real operating console: owner map, live queues, protected continuity states, launch health, payroll adoption, visibility posture, and next-step actions all visible at once.",
+          "It should also stay compact. The goal is not to impress with surface area. The goal is to help managers and operators make the next correct decision quickly.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Organization workspace summary",
+      language: "json",
+      code: `{
+  "organization_id": "org_northstar_logistics",
+  "workspace_mode": "managed_operations",
+  "employees": 842,
+  "pending_approvals": 46,
+  "continuity_windows": 7,
+  "active_org_markets": 27,
+  "payroll_programs": 1
+}`,
+      note: "The organization workspace should hold employee operations, org-market posture, and payroll-linked rollout in one place.",
+    },
+  },
+  {
+    slug: ["organization-workspace", "northstar-central-ops"],
+    group: "Organization Operations",
+    title: "Organization Workspace Detail",
+    eyebrow: "Workspace detail",
+    summary:
+      "A live company workspace view with owner map, approval pressure, org-market health, payroll adoption, and next-step operating checkpoints.",
+    searchTerms: [
+      "organization workspace detail",
+      "northstar central ops",
+      "company dashboard",
+      "enterprise operating console",
+    ],
+    sections: [
+      {
+        id: "owner-map",
+        title: "Owner map and operating boundary",
+        body: [
+          "A workspace detail page should show the real owners first: technical, workforce, billing, audit, and team-management owners. That map needs to stay visible because all later approvals and corrections depend on it.",
+          "Once the ownership map is clear, the page can safely layer in queue pressure, continuity windows, org-market launches, and payroll-linked funding without turning into a wall of disjointed metrics.",
+        ],
+      },
+      {
+        id: "current-pressure",
+        title: "Current operating pressure",
+        body: [
+          "The detail page should make current pressure obvious: pending approvals, restricted employees with active commitments, upcoming org-market deadlines, and payroll rollout gaps. These are the issues that require action now.",
+          "A good detail surface also keeps the next checkpoint visible so the workspace behaves like a real operating rhythm instead of a static analytics page.",
+        ],
+      },
+      {
+        id: "where-it-routes",
+        title: "Where the workspace routes next",
+        body: [
+          "From the workspace detail page, operators should be able to move directly into employee detail, manager-owned team views, approval queues, organization economics, and report lanes without re-searching for context.",
+          "That is what makes the workspace feel mature: the next correct path is always visible.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Organization workspace detail payload",
+      language: "json",
+      code: `{
+  "workspace_id": "northstar_central_ops",
+  "owner_map": {
+    "technical": "devops@northstar.example",
+    "workforce": "ops@northstar.example",
+    "billing": "finance@northstar.example",
+    "audit": "compliance@northstar.example"
+  },
+  "approval_pressure": 46,
+  "continuity_windows": 7,
+  "active_org_markets": 27,
+  "next_checkpoint": "2026-03-18T13:00:00Z"
+}`,
+      note: "Workspace detail should combine owner map, pressure signals, and next routing actions.",
+    },
+  },
+  {
+    slug: ["manager-views"],
+    group: "Organization Operations",
+    title: "Manager Team Views",
+    eyebrow: "Team operations",
+    summary:
+      "Manager-scoped team lanes for roster review, active commitments, unresolved misses, continuity windows, and org-market participation without granting full-owner access.",
+    searchTerms: [
+      "manager views",
+      "team views",
+      "manager dashboard",
+      "employee team lane",
+      "team operations",
+      "manager scoped workspace",
+    ],
+    sections: [
+      {
+        id: "why-team-views-exist",
+        title: "Why manager views exist",
+        body: [
+          "Managers usually need something narrower than the full organization console. They need to see their people, their active commitments, their missed work, and the next deadlines without also owning billing, key policy, or global admin settings.",
+          "Manager team views give them that narrower operating lane so the organization can scale without turning every manager into a full administrator.",
+        ],
+      },
+      {
+        id: "what-managers-see",
+        title: "What managers should see",
+        body: [
+          "A strong team view should show current roster, pending approvals assigned to that manager, current commitments, missed commitments, recoveries, continuity windows, and the team’s organization-market participation.",
+          "It should also keep escalation paths visible so a manager can restore access, reopen a continuity case, or hand something upward without guessing who owns the next step.",
+        ],
+      },
+      {
+        id: "how-team-views-help",
+        title: "How team views improve the workspace",
+        body: [
+          "When the team view is good, managers stop treating the product like an unreadable enterprise dashboard. They use it as a real operating lane for people and deadlines.",
+          "That improves adoption and keeps the organization workspace from becoming a bottleneck owned by a tiny group of admins.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: ["manager-views", "warehouse-operations"],
+    group: "Organization Operations",
+    title: "Manager Team Detail",
+    eyebrow: "Team detail",
+    summary:
+      "A live manager-owned team lane with roster state, approval pressure, current commitments, org-market coverage, and the next people risk to resolve.",
+    searchTerms: [
+      "warehouse operations",
+      "manager team detail",
+      "team detail",
+      "manager roster detail",
+    ],
+    sections: [
+      {
+        id: "team-roster",
+        title: "Team roster and workload",
+        body: [
+          "A team detail page should make the roster, current workload, and access posture visible immediately. A manager needs to know who is active, who is waiting on approval, and who is currently protected by continuity rules.",
+          "That keeps employee operations practical instead of forcing the manager to inspect each person record just to understand the team shape.",
+        ],
+      },
+      {
+        id: "team-performance",
+        title: "Team commitment performance",
+        body: [
+          "The page should show current live commitments, recent completions, missed outcomes, and any org-market deadlines that affect the team together.",
+          "That gives the manager a useful picture of accountability instead of a flat employee list with no operational meaning.",
+        ],
+      },
+      {
+        id: "manager-actions",
+        title: "What the manager does from here",
+        body: [
+          "The manager should be able to jump into employee detail, restore access, review pending requests, and open the most relevant org-market or program from the same surface.",
+          "This is where the team view stops being a report and becomes a useful operating page.",
+        ],
+      },
+    ],
+  },
+  {
     slug: ["projects"],
     group: "Workspace",
     title: "Projects",
@@ -2110,6 +2601,100 @@ export function verifyPayToCommitSignature(rawBody: string, signature: string, s
     },
   },
   {
+    slug: ["organization-fees"],
+    group: "Operations",
+    title: "Organization Program Economics",
+    eyebrow: "Program economics",
+    summary:
+      "The employer-side fee and revenue-share lane for organization programs, payroll-linked rollout, and company-managed market participation.",
+    searchTerms: [
+      "organization fees",
+      "organization revenue share",
+      "program economics",
+      "employer fee",
+      "enterprise billing economics",
+      "organization program fee",
+    ],
+    sections: [
+      {
+        id: "what-this-layer-is",
+        title: "What this economics layer is",
+        body: [
+          "Organization program economics should stay separate from Sovereign Spark. The company-side program fee or revenue-share lane is an enterprise commercial layer, not the core platform fee that funds the product itself.",
+          "That separation keeps billing honest for both the employer and the employee while preserving the platform’s own unit economics.",
+        ],
+      },
+      {
+        id: "what-employers-see",
+        title: "What the employer should see",
+        body: [
+          "A strong program-economics page should show organization fee settings, payroll-linked program line items, rebate or share summaries where contractually enabled, and the difference between employer-side economics and employee-facing market or funding fees.",
+          "Finance and operations should be able to read this page without cross-referencing three different billing systems.",
+        ],
+      },
+      {
+        id: "why-it-needs-its-own-lane",
+        title: "Why it needs its own lane",
+        body: [
+          "Employer economics is important enough to deserve its own lane because it shapes rollout decisions, payroll activation, and contract review. If it hides inside generic billing totals, no one can explain what the employer is actually paying for.",
+          "The right page makes the agreement legible and keeps the next billing or contract action obvious.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Organization economics summary",
+      language: "json",
+      code: `{
+  "organization_id": "org_northstar_logistics",
+  "organization_program_fee": 0.018,
+  "revenue_share_mode": "enabled",
+  "payroll_programs": 1,
+  "monthly_program_total_usd": 4180.24
+}`,
+      note: "Organization economics should stay explicit, separate from Sovereign Spark, and easy to audit.",
+    },
+  },
+  {
+    slug: ["organization-fees", "northstar-program-share"],
+    group: "Operations",
+    title: "Organization Economics Detail",
+    eyebrow: "Economics detail",
+    summary:
+      "A contract-backed view of employer-side fee configuration, rollout-linked economics, and the current billing shape for one organization program.",
+    searchTerms: [
+      "program share detail",
+      "organization economics detail",
+      "northstar program share",
+      "employer revenue share",
+    ],
+    sections: [
+      {
+        id: "line-items",
+        title: "Line items and contract posture",
+        body: [
+          "An economics detail page should break employer-side value into clean line items: active organization programs, payroll-linked funding, eligible revenue-share lanes, and any contract-specific adjustments or credits.",
+          "It should never force the company to guess whether a number belongs to the platform core fee, the employer program layer, or a payroll-specific configuration.",
+        ],
+      },
+      {
+        id: "operating-context",
+        title: "Economics in operating context",
+        body: [
+          "This page should also stay tied to the actual rollout, employee cohort, and organization markets it supports. That way the company can connect cost to activity instead of reading one disconnected invoice table.",
+          "Good enterprise economics pages make the commercial picture explainable to finance, operations, and procurement at the same time.",
+        ],
+      },
+      {
+        id: "next-actions",
+        title: "What comes next",
+        body: [
+          "From here, the company should be able to move into billing, exports, payroll rollout, or the underlying organization workspace without losing the current contract context.",
+          "That keeps commercial review practical instead of turning it into a dead-end finance screen.",
+        ],
+      },
+    ],
+  },
+  {
     slug: ["employees"],
     group: "Operations",
     title: "Employee Directory",
@@ -2355,6 +2940,101 @@ export function verifyPayToCommitSignature(rawBody: string, signature: string, s
     },
   },
   {
+    slug: ["reports", "operations-digest"],
+    group: "Operations",
+    title: "Organization Operations Digest",
+    eyebrow: "Operations digest",
+    summary:
+      "A scheduled digest for workforce rollout, approvals, continuity windows, org-market health, payroll adoption, and manager-owned team pressure.",
+    searchTerms: [
+      "operations digest",
+      "organization report",
+      "employee operations report",
+      "workforce digest",
+      "manager digest",
+    ],
+    sections: [
+      {
+        id: "what-it-covers",
+        title: "What the digest covers",
+        body: [
+          "The organization operations digest should gather the metrics leaders actually review together: pending approvals, continuity windows, org-market performance, payroll adoption, team pressure, and recent employee recovery movement.",
+          "That makes it the best report for leaders who care about organization execution, not just API traffic or billing.",
+        ],
+      },
+      {
+        id: "delivery-shape",
+        title: "How it should be delivered",
+        body: [
+          "A good digest should work as an export, a dashboard panel, and a scheduled delivery to operations or finance owners. The point is to keep the company aligned without asking every leader to navigate the full workspace every day.",
+          "Because the digest is tied to the real operating model, it should also route back into the queue, roster, and org-market lanes that explain the numbers.",
+        ],
+      },
+      {
+        id: "why-it-matters",
+        title: "Why this report matters",
+        body: [
+          "This is the report that makes the organization program feel governable. It shows whether the company is onboarding people cleanly, protecting active commitments, and maintaining real execution quality across teams.",
+          "That makes it different from a finance export or an audit package. It is a management report.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: ["reports", "billing-reconciliation"],
+    group: "Operations",
+    title: "Billing Reconciliation",
+    eyebrow: "Report detail",
+    summary:
+      "A finance-grade reconciliation package for HRS usage, exports, employer program economics, and statement-ready variance review.",
+    searchTerms: [
+      "billing reconciliation",
+      "finance reconciliation",
+      "usage reconciliation",
+      "program economics reconciliation",
+      "invoice variance",
+    ],
+    sections: [
+      {
+        id: "what-reconciliation-covers",
+        title: "What reconciliation covers",
+        body: [
+          "Billing reconciliation compares protected lookups, reports, exports, employer-fee programs, and statement lines against the current billing posture.",
+          "It exists so finance and operators can see whether the numbers line up before invoices or employer-facing statements are finalized.",
+        ],
+      },
+      {
+        id: "variance-review",
+        title: "Variance review",
+        body: [
+          "A good reconciliation page should show variance, owner, and next action instead of forcing the team into raw ledger exports every time a number moves.",
+          "That makes the report useful as an operating lane, not just a data dump.",
+        ],
+      },
+      {
+        id: "where-it-routes",
+        title: "Where this page routes next",
+        body: [
+          "From here teams should be able to jump into billing, exports, audit history, or the organization-fee lane that generated the variance.",
+          "That keeps reconciliation tied to the actual sources of movement instead of turning it into a dead-end finance screen.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Billing reconciliation snapshot",
+      language: "json",
+      code: `{
+  "period": "2026-03",
+  "usage_billed_usd": 4318.42,
+  "program_fees_billed_usd": 912.13,
+  "variance_usd": 14.27,
+  "status": "needs_review",
+  "owner": "finance@northstar.example"
+}`,
+      note: "Billing reconciliation should explain what moved, how much it moved, and who is responsible for closing the gap.",
+    },
+  },
+  {
     slug: ["billing-usage"],
     group: "Operations",
     title: "Billing and Usage",
@@ -2529,6 +3209,63 @@ export function verifyPayToCommitSignature(rawBody: string, signature: string, s
         ],
       },
     ],
+  },
+  {
+    slug: ["audit-logs", "organization-access-review"],
+    group: "Operations",
+    title: "Organization Access Review",
+    eyebrow: "Audit detail",
+    summary:
+      "A bounded audit slice for role grants, revocations, continuity protections, restore actions, and managed-visibility changes.",
+    searchTerms: [
+      "organization access review",
+      "role grant audit",
+      "revocation audit",
+      "restore access audit",
+      "managed visibility audit",
+    ],
+    sections: [
+      {
+        id: "what-this-review-shows",
+        title: "What this review shows",
+        body: [
+          "The organization access review focuses on the highest-sensitivity changes: role grants, visibility-policy changes, revocations, restore actions, and continuity protections.",
+          "It is the audit slice operators use when they need to explain exactly how an employee or manager reached the access state they are in now.",
+        ],
+      },
+      {
+        id: "why-this-matters",
+        title: "Why this matters",
+        body: [
+          "Company-managed workspaces only stay trustworthy if access changes are explainable. A role or visibility change that cannot be traced is already an operational problem.",
+          "That is why this view should be bounded, high-signal, and tied directly to the queue, employee, and visibility surfaces it refers to.",
+        ],
+      },
+      {
+        id: "how-it-is-used",
+        title: "How teams use it",
+        body: [
+          "Teams use the access review when they are reconciling a restore window, investigating an unexpected visibility state, or proving that a manager/admin change was lawful and intentional.",
+          "It should feel like a serious operator surface, not a generic flat log.",
+        ],
+      },
+    ],
+    codeSample: {
+      title: "Organization access review export",
+      language: "json",
+      code: `{
+  "organization_id": "org_northstar_logistics",
+  "window": "2026-03-01/2026-03-12",
+  "events": [
+    "manager_role_granted",
+    "employee_access_restricted",
+    "continuity_mode_enabled",
+    "restore_access_completed",
+    "managed_visibility_updated"
+  ]
+}`,
+      note: "Access review should isolate the highest-sensitivity organization access changes in one bounded exportable audit slice.",
+    },
   },
   {
     slug: ["troubleshooting"],

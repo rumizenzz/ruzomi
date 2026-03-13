@@ -279,6 +279,18 @@ export function DeveloperPortalShell({
       detail: "Preserve proof, deadline, and market access when broader organization permissions are being reduced.",
     },
     {
+      href: getDeveloperPortalPath(["organization-workspace"], hostMode),
+      label: "Workspace",
+      title: "Run the org workspace",
+      detail: "Keep approvals, org markets, payroll rollout, and continuity protections in one operator console.",
+    },
+    {
+      href: getDeveloperPortalPath(["manager-views"], hostMode),
+      label: "Managers",
+      title: "Manager team lanes",
+      detail: "Give managers roster, deadline, and org-market visibility without collapsing into full admin access.",
+    },
+    {
       href: getDeveloperPortalPath(["employee-access-queue"], hostMode),
       label: "Access",
       title: "Approval queue",
@@ -313,6 +325,12 @@ export function DeveloperPortalShell({
       label: "Billing",
       title: "Usage and invoice preview",
       detail: "Metered lookup volume, report costs, and project-by-project billing visibility.",
+    },
+    {
+      href: getDeveloperPortalPath(["organization-fees"], hostMode),
+      label: "Economics",
+      title: "Employer program economics",
+      detail: "Keep organization program fees and revenue-share lanes separate from core platform billing.",
     },
     {
       href: getDeveloperPortalPath(["audit-logs"], hostMode),
@@ -420,9 +438,24 @@ export function DeveloperPortalShell({
       href: getDeveloperPortalPath(["organization-onboarding"], hostMode),
     },
     {
+      name: "Organization workspace",
+      detail: "Owners, queue pressure, active markets, team views, and payroll rollout now live in one company workspace.",
+      href: getDeveloperPortalPath(["organization-workspace"], hostMode),
+    },
+    {
+      name: "Manager team lanes",
+      detail: "Managers can work from scoped team views with roster, deadlines, misses, and recoveries already grouped together.",
+      href: getDeveloperPortalPath(["manager-views"], hostMode),
+    },
+    {
       name: "Continuity protection",
       detail: "7 employees still have protected access because active commitments and proof windows are still live.",
       href: getDeveloperPortalPath(["continuity-access"], hostMode),
+    },
+    {
+      name: "Program economics",
+      detail: "Employer-side program fees, payroll-linked line items, and revenue-share lanes are visible without mixing them into Sovereign Spark.",
+      href: getDeveloperPortalPath(["organization-fees"], hostMode),
     },
   ];
   const workforceRolloutChecklist = [
@@ -531,6 +564,74 @@ export function DeveloperPortalShell({
         label: "Correction window",
         value: "Open",
         detail: "If a package needs to be corrected, the report detail lane keeps that path visible and auditable.",
+      },
+    ],
+    "reports/operations-digest": [
+      {
+        label: "Digest cadence",
+        value: "Weekly · Monday 8:00 AM",
+        detail: "The operations digest should show its delivery rhythm because leaders depend on it as a management report.",
+      },
+      {
+        label: "Coverage",
+        value: "Queue · Markets · Payroll · Teams",
+        detail: "The report should make its operating scope visible before the user downloads it or schedules another run.",
+      },
+      {
+        label: "Current delivery",
+        value: "Preparing next digest",
+        detail: "A digest is still a real workflow with a visible next run, not a static export template.",
+      },
+    ],
+    "reports/billing-reconciliation": [
+      {
+        label: "Reconciliation run",
+        value: "Month-to-date",
+        detail: "The billing-close page should open on the active statement window so finance and operations are reading the same frame.",
+      },
+      {
+        label: "Open exceptions",
+        value: "2 active items",
+        detail: "Operators need the current mismatch count immediately instead of discovering it after drilling through exports.",
+      },
+      {
+        label: "Correction posture",
+        value: "Open",
+        detail: "Reconciliation only feels production-grade when the correction lane is visible from the first screen.",
+      },
+    ],
+    "organization-alerts/continuity-pressure": [
+      {
+        label: "Alert family",
+        value: "Continuity pressure",
+        detail: "The alert detail should name the exact employee-risk class instead of flattening it into a generic warning state.",
+      },
+      {
+        label: "Employees at risk",
+        value: "7 protected",
+        detail: "This surface should show how many employees still depend on continuity access before any action is taken.",
+      },
+      {
+        label: "Nearest deadline",
+        value: "Mar 15 · 4:00 PM",
+        detail: "Time-to-risk belongs on the first alert screen because it shapes the next intervention immediately.",
+      },
+    ],
+    "audit-logs/organization-access-review": [
+      {
+        label: "Audit slice",
+        value: "Organization access review",
+        detail: "The audit detail should clearly state which access and visibility decisions are under review.",
+      },
+      {
+        label: "Event density",
+        value: "184 logged actions",
+        detail: "Access review only feels operational when the page makes the recent decision volume visible right away.",
+      },
+      {
+        label: "Export state",
+        value: "Compliance ready",
+        detail: "The operator should know whether this audit slice is already ready for export or correction from the first panel.",
       },
     ],
     "billing-usage": [
@@ -771,6 +872,74 @@ export function DeveloperPortalShell({
         detail: "Continuity issues should remain tied to the organization record where policy allows.",
       },
     ],
+    "organization-workspace": [
+      {
+        label: "Active employees",
+        value: "716 live",
+        detail: "The workspace should open on the real managed employee cohort instead of a generic organization count.",
+      },
+      {
+        label: "Current queue pressure",
+        value: "46 pending approvals",
+        detail: "Approval load belongs on the workspace home because it shapes the next operator action immediately.",
+      },
+      {
+        label: "Active organization markets",
+        value: "27 live",
+        detail: "The workspace should keep organization-market volume visible beside queue and payroll posture.",
+      },
+    ],
+    "organization-workspace/northstar-central-ops": [
+      {
+        label: "Owner map",
+        value: "Tech · Workforce · Billing · Audit",
+        detail: "The detail page should show the current owner chain before the operator reaches for any queue or employee action.",
+      },
+      {
+        label: "Continuity windows",
+        value: "7 protected",
+        detail: "Protected employee cases stay part of the core workspace posture, not a hidden exception list.",
+      },
+      {
+        label: "Next checkpoint",
+        value: "Mar 18 · 1:00 PM",
+        detail: "Workspace detail should always show the next operating checkpoint without another planning tool.",
+      },
+    ],
+    "manager-views": [
+      {
+        label: "Manager-owned teams",
+        value: "12 active lanes",
+        detail: "Manager views should be tied to real team ownership boundaries instead of one generic directory lane.",
+      },
+      {
+        label: "Pending manager reviews",
+        value: "9 assigned",
+        detail: "Approval and restore tasks that belong to managers should stay visible from the team view entry page.",
+      },
+      {
+        label: "Missed commitments",
+        value: "14 this period",
+        detail: "Managers need recent misses in context so they can act on the right team pressure first.",
+      },
+    ],
+    "manager-views/warehouse-operations": [
+      {
+        label: "Team size",
+        value: "84 employees",
+        detail: "A team detail page should open with the real roster size and not make the manager infer it from raw rows.",
+      },
+      {
+        label: "Live commitments",
+        value: "39 active",
+        detail: "The current commitment load is the core operating context for this manager-owned team.",
+      },
+      {
+        label: "Restoration risk",
+        value: "2 continuity cases",
+        detail: "Managers should see access-restoration pressure before it turns into a missed proof window.",
+      },
+    ],
     "continuity-access/jordan-lee-restriction-window": [
       {
         label: "Employee window",
@@ -888,6 +1057,57 @@ export function DeveloperPortalShell({
         label: "Next payroll window",
         value: "Mar 15 · 9:00 AM",
         detail: "Finance and operations should both see the next funding window without jumping into another tool.",
+      },
+    ],
+    "organization-fees": [
+      {
+        label: "Program fee posture",
+        value: "Separate from Sovereign Spark",
+        detail: "The organization fee lane should make the employer-side economics boundary obvious from the first screen.",
+      },
+      {
+        label: "Payroll-linked programs",
+        value: "1 active",
+        detail: "Program economics should stay tied to the payroll and organization-market lanes it supports.",
+      },
+      {
+        label: "Monthly program total",
+        value: "$4.2k",
+        detail: "Operators should see the current employer-side economics shape without opening a full invoice export first.",
+      },
+    ],
+    "organization-fees/northstar-program-share": [
+      {
+        label: "Agreement state",
+        value: "Contract-backed",
+        detail: "The detail page should make it obvious that this is a negotiated organization-program layer and not a generic platform fee.",
+      },
+      {
+        label: "Revenue-share mode",
+        value: "Enabled",
+        detail: "The active commercial mode belongs on the first screen so finance and operations are reading the same truth.",
+      },
+      {
+        label: "Linked rollout",
+        value: "Northstar direct deposit",
+        detail: "The economics page should keep its payroll and workforce context attached instead of turning into a detached invoice view.",
+      },
+    ],
+    "roles-permissions/manager-control-pack": [
+      {
+        label: "Template scope",
+        value: "Manager + analyst controls",
+        detail: "The role template detail should make its actual operating boundary obvious before it is assigned to a live team lane.",
+      },
+      {
+        label: "Queue authority",
+        value: "Approve + restore",
+        detail: "This control pack governs approval and continuity actions, so the page should surface that power directly.",
+      },
+      {
+        label: "Audit requirement",
+        value: "Always on",
+        detail: "Permission changes tied to this pack remain traceable because they affect access, visibility, and live commitments.",
       },
     ],
     "organizations/northstar-logistics": [
@@ -1195,6 +1415,16 @@ export function DeveloperPortalShell({
             label: "Billing and usage",
             detail: "Review invoice pressure, threshold alerts, and project concentration before month-end.",
             href: getDeveloperPortalPath(["billing-usage"], hostMode),
+          },
+          {
+            label: "Organization HRS analytics",
+            detail: "Inspect org-level reliability, continuity pressure, and recovery movement from the operator view.",
+            href: getDeveloperPortalPath(["organization-hrs"], hostMode),
+          },
+          {
+            label: "Organization alerts",
+            detail: "Move straight into approval, continuity, payroll, and org-market alert groupings.",
+            href: getDeveloperPortalPath(["organization-alerts"], hostMode),
           },
         ],
       },
@@ -1872,6 +2102,279 @@ export function DeveloperPortalShell({
         ],
       },
     ],
+    "organization-workspace": [
+      {
+        eyebrow: "Workspace",
+        title: "Run the company workspace",
+        items: [
+          {
+            label: "Open a live workspace detail",
+            detail: "Inspect one active organization workspace with employee operations, manager lanes, and billing posture already attached.",
+            href: getDeveloperPortalPath(["organization-workspace", "northstar-central-ops"], hostMode),
+          },
+          {
+            label: "Open employee directory",
+            detail: "Move from the workspace shell into the people lane that drives approvals, continuity pressure, and org-market participation.",
+            href: getDeveloperPortalPath(["employees"], hostMode),
+          },
+          {
+            label: "Open manager views",
+            detail: "Jump into manager-scoped team lanes without leaving the organization operating context.",
+            href: getDeveloperPortalPath(["manager-views"], hostMode),
+          },
+          {
+            label: "Open organization program economics",
+            detail: "Review the separate employer-facing fee and revenue-share layer tied to organization programs.",
+            href: getDeveloperPortalPath(["organization-fees"], hostMode),
+          },
+        ],
+      },
+    ],
+    "organization-workspace/northstar-central-ops": [
+      {
+        eyebrow: "Workspace detail",
+        title: "Operate from one central control room",
+        items: [
+          {
+            label: "Return to organization workspace overview",
+            detail: "Step back into the broader workspace model once this operating detail review is finished.",
+            href: getDeveloperPortalPath(["organization-workspace"], hostMode),
+          },
+          {
+            label: "Open manager team lanes",
+            detail: "Move directly into team-level operating views for managers and department owners.",
+            href: getDeveloperPortalPath(["manager-views", "warehouse-operations"], hostMode),
+          },
+          {
+            label: "Open operations digest",
+            detail: "Review the organization-wide daily report that summarizes employee, market, billing, and continuity movement.",
+            href: getDeveloperPortalPath(["reports", "operations-digest"], hostMode),
+          },
+          {
+            label: "Open employee detail",
+            detail: "Drill into one managed employee from the same workspace context.",
+            href: getDeveloperPortalPath(["employees", "jordan-lee"], hostMode),
+          },
+        ],
+      },
+    ],
+    "manager-views": [
+      {
+        eyebrow: "Managers",
+        title: "Run team lanes without losing workspace context",
+        items: [
+          {
+            label: "Open a live manager view",
+            detail: "Inspect one manager-scoped team lane with approvals, deadlines, and team reliability already attached.",
+            href: getDeveloperPortalPath(["manager-views", "warehouse-operations"], hostMode),
+          },
+          {
+            label: "Open employee roster",
+            detail: "Jump from the team lane into the full employee directory when cross-team review is needed.",
+            href: getDeveloperPortalPath(["employees"], hostMode),
+          },
+          {
+            label: "Open continuity access",
+            detail: "Manager-owned interventions should stay tied to continuity protection and active commitment deadlines.",
+            href: getDeveloperPortalPath(["continuity-access"], hostMode),
+          },
+        ],
+      },
+    ],
+    "manager-views/warehouse-operations": [
+      {
+        eyebrow: "Team detail",
+        title: "Manage one active team lane",
+        items: [
+          {
+            label: "Return to manager views",
+            detail: "Step back into the broader team-lane model once this specific operating review is complete.",
+            href: getDeveloperPortalPath(["manager-views"], hostMode),
+          },
+          {
+            label: "Open workforce rollout",
+            detail: "Keep the team lane tied to the broader employee launch that is still driving access pressure.",
+            href: getDeveloperPortalPath(["workforce-rollout", "northstar-launch-q2"], hostMode),
+          },
+          {
+            label: "Open employee queue",
+            detail: "If approvals or restores are slipping, move directly into the live access queue.",
+            href: getDeveloperPortalPath(["employee-access-queue", "northstar-q1-access-window"], hostMode),
+          },
+          {
+            label: "Open employee detail",
+            detail: "Drill into a specific managed employee from the team lane when intervention is needed.",
+            href: getDeveloperPortalPath(["employees", "jordan-lee"], hostMode),
+          },
+        ],
+      },
+    ],
+    "organization-fees": [
+      {
+        eyebrow: "Economics",
+        title: "Review the separate organization fee layer",
+        items: [
+          {
+            label: "Open a live program fee detail",
+            detail: "Inspect one organization-program fee lane with employer billing and revenue-share posture already attached.",
+            href: getDeveloperPortalPath(["organization-fees", "northstar-program-share"], hostMode),
+          },
+          {
+            label: "Open billing and usage",
+            detail: "Keep program economics tied to the broader invoice and usage lane instead of isolating them in a finance-only page.",
+            href: getDeveloperPortalPath(["billing-usage"], hostMode),
+          },
+          {
+            label: "Open reports and exports",
+            detail: "Move directly into statements and audit-ready packages once the economics lane is clear.",
+            href: getDeveloperPortalPath(["reports"], hostMode),
+          },
+        ],
+      },
+    ],
+    "organization-fees/northstar-program-share": [
+      {
+        eyebrow: "Program economics",
+        title: "Keep the org fee lane transparent",
+        items: [
+          {
+            label: "Return to organization fees",
+            detail: "Step back into the broader employer-fee model once this specific program review is complete.",
+            href: getDeveloperPortalPath(["organization-fees"], hostMode),
+          },
+          {
+            label: "Open billing project detail",
+            detail: "Compare the employer-facing fee lane with the live usage and invoice concentration it sits beside.",
+            href: getDeveloperPortalPath(["billing-usage", "production-underwriting"], hostMode),
+          },
+          {
+            label: "Open operations digest",
+            detail: "Tie program economics back to the org-wide operating report that explains participation and outcome movement.",
+            href: getDeveloperPortalPath(["reports", "operations-digest"], hostMode),
+          },
+        ],
+      },
+    ],
+    "roles-permissions/manager-control-pack": [
+      {
+        eyebrow: "Permissions",
+        title: "Audit the exact control pack before assignment",
+        items: [
+          {
+            label: "Return to roles and permissions",
+            detail: "Step back into the broader role-template lane once this pack review is finished.",
+            href: getDeveloperPortalPath(["roles-permissions"], hostMode),
+          },
+          {
+            label: "Open employee queue",
+            detail: "Confirm the managers using this pack can safely work the approval and restore queue they are meant to own.",
+            href: getDeveloperPortalPath(["employee-access-queue", "northstar-q1-access-window"], hostMode),
+          },
+          {
+            label: "Open manager views",
+            detail: "See how this pack maps into the real team-lane surface managers operate from each day.",
+            href: getDeveloperPortalPath(["manager-views", "warehouse-operations"], hostMode),
+          },
+        ],
+      },
+    ],
+    "reports/operations-digest": [
+      {
+        eyebrow: "Digest",
+        title: "Use one report to run the day",
+        items: [
+          {
+            label: "Return to reports and exports",
+            detail: "Step back into the broader report queue once the organization digest has been reviewed.",
+            href: getDeveloperPortalPath(["reports"], hostMode),
+          },
+          {
+            label: "Open organization workspace",
+            detail: "Move from the daily digest into the live organization workspace it summarizes.",
+            href: getDeveloperPortalPath(["organization-workspace", "northstar-central-ops"], hostMode),
+          },
+          {
+            label: "Open manager views",
+            detail: "Follow team-level issues straight into manager-owned team views.",
+            href: getDeveloperPortalPath(["manager-views", "warehouse-operations"], hostMode),
+          },
+          {
+            label: "Open employee access queue",
+            detail: "Jump directly into the queue if the digest flags pending approvals or continuity pressure.",
+            href: getDeveloperPortalPath(["employee-access-queue", "northstar-q1-access-window"], hostMode),
+          },
+        ],
+      },
+    ],
+    "reports/billing-reconciliation": [
+      {
+        eyebrow: "Reconciliation",
+        title: "Close the billing picture without losing operator context",
+        items: [
+          {
+            label: "Return to reports and exports",
+            detail: "Step back into the broader report queue once the reconciliation window is clear.",
+            href: getDeveloperPortalPath(["reports"], hostMode),
+          },
+          {
+            label: "Open billing and usage",
+            detail: "Compare reconciliation variance against the live invoice and workflow concentration lane.",
+            href: getDeveloperPortalPath(["billing-usage", "production-underwriting"], hostMode),
+          },
+          {
+            label: "Open program economics",
+            detail: "If employer-side fee statements are driving the mismatch, move directly into the organization program share lane.",
+            href: getDeveloperPortalPath(["organization-fees", "northstar-program-share"], hostMode),
+          },
+        ],
+      },
+    ],
+    "organization-alerts/continuity-pressure": [
+      {
+        eyebrow: "Alerting",
+        title: "Work the continuity alert without breaking active commitments",
+        items: [
+          {
+            label: "Return to organization alerts",
+            detail: "Step back into the broader alert feed once this continuity case cluster is stable again.",
+            href: getDeveloperPortalPath(["organization-alerts"], hostMode),
+          },
+          {
+            label: "Open continuity access",
+            detail: "Move straight into the protected employee cohort driving this alert family.",
+            href: getDeveloperPortalPath(["continuity-access", "jordan-lee-restriction-window"], hostMode),
+          },
+          {
+            label: "Open employee queue",
+            detail: "If restores are lagging, move directly into the approval window that still owns the affected employees.",
+            href: getDeveloperPortalPath(["employee-access-queue", "northstar-q1-access-window"], hostMode),
+          },
+        ],
+      },
+    ],
+    "audit-logs/organization-access-review": [
+      {
+        eyebrow: "Audit",
+        title: "Review access decisions with full operator context",
+        items: [
+          {
+            label: "Return to audit logs",
+            detail: "Step back into the wider audit lane after this organization access review is complete.",
+            href: getDeveloperPortalPath(["audit-logs"], hostMode),
+          },
+          {
+            label: "Open managed visibility",
+            detail: "Compare access decisions against the live visibility policy template they were meant to honor.",
+            href: getDeveloperPortalPath(["managed-visibility", "northstar-full-managed-visibility"], hostMode),
+          },
+          {
+            label: "Open employee detail",
+            detail: "Move from the audit trail into the affected employee record when the review needs person-level context.",
+            href: getDeveloperPortalPath(["employees", "jordan-lee"], hostMode),
+          },
+        ],
+      },
+    ],
     organizations: [
       {
         eyebrow: "Setup",
@@ -2222,6 +2725,52 @@ export function DeveloperPortalShell({
             label: "Request production review",
             detail: "Once the first call, key, and webhook path are clean, move directly into production review.",
             href: getDeveloperPortalPath(["production-review"], hostMode),
+          },
+        ],
+      },
+    ],
+    "organization-hrs": [
+      {
+        eyebrow: "Trajectory",
+        title: "Operate from the org score",
+        items: [
+          {
+            label: "Open employee access queue",
+            detail: "Review backlog and continuity pressure that is currently affecting the organization trend.",
+            href: getDeveloperPortalPath(["employee-access-queue"], hostMode),
+          },
+          {
+            label: "Open employee directory",
+            detail: "Move from org-level trend into the people lane that is driving the current score.",
+            href: getDeveloperPortalPath(["employees"], hostMode),
+          },
+          {
+            label: "Open workforce rollout",
+            detail: "Compare the trend against the current company-email launch and org-market rollout posture.",
+            href: getDeveloperPortalPath(["workforce-rollout"], hostMode),
+          },
+        ],
+      },
+    ],
+    "organization-alerts": [
+      {
+        eyebrow: "Alerts",
+        title: "Resolve the highest-pressure lanes",
+        items: [
+          {
+            label: "Review continuity deadlines",
+            detail: "Open the restricted-access lane before active commitments drift into avoidable misses.",
+            href: getDeveloperPortalPath(["continuity-access"], hostMode),
+          },
+          {
+            label: "Review payroll rollout gaps",
+            detail: "Move into the payroll lane when wallet funding adoption is lagging behind the employee launch.",
+            href: getDeveloperPortalPath(["payroll-and-wallet"], hostMode),
+          },
+          {
+            label: "Review managed visibility changes",
+            detail: "Confirm the current org disclosure posture before another approval wave goes live.",
+            href: getDeveloperPortalPath(["managed-visibility"], hostMode),
           },
         ],
       },
@@ -2888,6 +3437,226 @@ export function DeveloperPortalShell({
         ],
       },
     ],
+    "organization-workspace": [
+      {
+        eyebrow: "Workspace",
+        title: "Organization operating posture",
+        rows: [
+          { label: "Managed employees", value: "842", detail: "The workspace overview should show the size of the active organization footprint before the operator drills deeper." },
+          { label: "Active programs", value: "6", detail: "Organization markets, payroll programs, and review queues should stay visible from the first workspace screen." },
+          { label: "Critical queue", value: "1 continuity lane", detail: "The overview needs to show whether the workspace is under active access or deadline pressure." },
+        ],
+      },
+      {
+        eyebrow: "Owners",
+        title: "Organization control coverage",
+        rows: [
+          { label: "Technical owner", value: "Assigned", detail: "The workspace should make ownership explicit before keys, webhooks, and program changes start moving." },
+          { label: "People ops owner", value: "Assigned", detail: "Employee approval, continuity, and program rollout need a clearly named organization owner." },
+          { label: "Finance owner", value: "Assigned", detail: "Billing, payroll, and employer-fee posture belong in the same operator picture." },
+        ],
+      },
+    ],
+    "organization-workspace/northstar-central-ops": [
+      {
+        eyebrow: "Operations",
+        title: "Central workspace posture",
+        rows: [
+          { label: "Daily active managers", value: "14", detail: "The detail lane should show how many manager-owned team surfaces are actually running today." },
+          { label: "Approvals waiting", value: "46", detail: "Pending access volume needs to stay visible because it directly shapes continuity and onboarding pressure." },
+          { label: "Programs requiring attention", value: "2", detail: "The workspace should surface which org programs need intervention before issues spread across teams." },
+        ],
+      },
+      {
+        eyebrow: "Movement",
+        title: "What changed most recently",
+        rows: [
+          { label: "Largest employee wave", value: "Warehouse ops", detail: "The current growth lane should be visible from the workspace detail before the operator opens team views." },
+          { label: "Finance pressure", value: "Stable", detail: "The org-wide economics lane should remain easy to read from the same operating detail." },
+          { label: "Continuity risk", value: "Contained", detail: "Current active-commitment protection is working, but still needs active monitoring." },
+        ],
+      },
+    ],
+    "manager-views": [
+      {
+        eyebrow: "Teams",
+        title: "Manager lane mix",
+        rows: [
+          { label: "Manager-owned teams", value: "8", detail: "The manager overview should show how many scoped team lanes the organization is actively running." },
+          { label: "Teams with queue pressure", value: "3", detail: "Approval and continuity pressure should be visible before opening one specific team lane." },
+          { label: "Teams with active programs", value: "5", detail: "Program participation should stay tied to the team operating model, not hidden in a separate analytics page." },
+        ],
+      },
+      {
+        eyebrow: "Manager actions",
+        title: "Common operating needs",
+        rows: [
+          { label: "Most urgent lane", value: "Warehouse Operations", detail: "The overview should make it obvious which manager lane needs attention first." },
+          { label: "Pending restores", value: "2", detail: "Restore-access pressure belongs in the manager picture because it affects active commitments directly." },
+          { label: "Upcoming org deadlines", value: "4 this week", detail: "Team-level deadlines should stay visible before the manager opens one employee record." },
+        ],
+      },
+    ],
+    "manager-views/warehouse-operations": [
+      {
+        eyebrow: "Team detail",
+        title: "Warehouse operations posture",
+        rows: [
+          { label: "Team members", value: "132", detail: "The manager detail lane should show the scope of the team before any employee drill-down begins." },
+          { label: "Pending approvals", value: "18", detail: "Team-level approval pressure should stay visible alongside deadlines and participation status." },
+          { label: "Active commitments", value: "74", detail: "Managers need a live read on how much in-flight work this lane is carrying." },
+        ],
+      },
+      {
+        eyebrow: "Stability",
+        title: "Team operating confidence",
+        rows: [
+          { label: "Proof window risk", value: "1 lane elevated", detail: "The team lane should show where commitment continuity could slip without intervention." },
+          { label: "Participation quality", value: "Strong", detail: "Most current team market movement is healthy and does not require corrective action." },
+          { label: "Manager review cadence", value: "Daily", detail: "The detail surface should show how often this team is being actively reviewed." },
+        ],
+      },
+    ],
+    "organization-fees": [
+      {
+        eyebrow: "Economics",
+        title: "Employer-side fee posture",
+        rows: [
+          { label: "Active fee programs", value: "3", detail: "The page should show how many employer-facing economics programs are live before the operator drills into one." },
+          { label: "Separate from Sovereign Spark", value: "Yes", detail: "The org fee lane must remain clearly distinct from the core platform-fee layer." },
+          { label: "Invoice visibility", value: "Exportable", detail: "Employers need transparent statement and billing views tied to these programs." },
+        ],
+      },
+      {
+        eyebrow: "Controls",
+        title: "What the economics lane governs",
+        rows: [
+          { label: "Program statements", value: "Monthly", detail: "The employer-facing fee layer should be visible in recurring statements and audit packages." },
+          { label: "Margin guardrail", value: "Protected", detail: "Organization economics cannot erode the core platform margin or core user economics." },
+          { label: "Customization path", value: "Contract-bound", detail: "Any employer fee variation should stay explicit and contract-governed." },
+        ],
+      },
+    ],
+    "organization-fees/northstar-program-share": [
+      {
+        eyebrow: "Program fee",
+        title: "Northstar program economics",
+        rows: [
+          { label: "Employer fee mode", value: "Active", detail: "The program detail should show whether the employer-side fee lane is actually in force." },
+          { label: "Statement cadence", value: "Monthly", detail: "Billing visibility should stay visible on the detail page instead of hiding in a finance lane." },
+          { label: "Related org program", value: "Operations sprint markets", detail: "The economics lane should stay tied to the actual organization program it monetizes." },
+        ],
+      },
+      {
+        eyebrow: "Protections",
+        title: "Economic boundary rules",
+        rows: [
+          { label: "Employee wage impact", value: "No silent reduction", detail: "The detail view should make it explicit that employer economics do not silently reduce employee wages or stakes." },
+          { label: "Core fee integrity", value: "Preserved", detail: "Sovereign Spark remains intact and separately represented." },
+          { label: "Auditability", value: "Enabled", detail: "Every employer-fee change must stay exportable and traceable." },
+        ],
+      },
+    ],
+    "roles-permissions/manager-control-pack": [
+      {
+        eyebrow: "Permissions",
+        title: "Manager control template",
+        rows: [
+          { label: "Pack version", value: "manager-control-pack", detail: "Role templates should read like versioned operating packs, not loose permission bundles." },
+          { label: "Queue authority", value: "Approve + restore", detail: "This pack controls who can clear approvals and who can preserve continuity for active commitments." },
+          { label: "Visibility limit", value: "Manager-scoped", detail: "The pack remains bounded to manager lanes and does not silently grant broader organization visibility." },
+        ],
+      },
+      {
+        eyebrow: "Safeguards",
+        title: "What this pack still cannot do",
+        rows: [
+          { label: "Wallet access", value: "No override", detail: "Managers cannot unlock wallet-sensitive actions or bypass local wallet protections." },
+          { label: "Audit requirement", value: "Always on", detail: "Every assignment and change to this pack remains attached to the organization audit trail." },
+          { label: "Escalation path", value: "Owner review", detail: "Higher-risk actions still route through owner or admin review instead of living entirely in the manager lane." },
+        ],
+      },
+    ],
+    "reports/operations-digest": [
+      {
+        eyebrow: "Digest",
+        title: "Daily operating summary",
+        rows: [
+          { label: "Coverage", value: "Employees + markets + billing", detail: "The operations digest should make clear that it spans the full organization workspace rather than one silo." },
+          { label: "Primary audience", value: "Ops + people + finance", detail: "The report should read like a cross-functional operator brief, not a narrow export." },
+          { label: "Next send", value: "Tomorrow · 7:30 AM", detail: "The next delivery window belongs on the report detail page." },
+        ],
+      },
+      {
+        eyebrow: "Signals",
+        title: "What the digest calls out",
+        rows: [
+          { label: "Approval pressure", value: "Elevated", detail: "Queue movement and pending approvals should be highlighted when they are affecting rollout quality." },
+          { label: "Program performance", value: "Stable", detail: "The digest should keep market/program movement legible for managers and finance." },
+          { label: "Continuity watch", value: "Active", detail: "Any access situation that could affect live commitments should be summarized in the report." },
+        ],
+      },
+    ],
+    "reports/billing-reconciliation": [
+      {
+        eyebrow: "Reconciliation",
+        title: "Billing close posture",
+        rows: [
+          { label: "Current window", value: "Month-to-date", detail: "The reconciliation detail should show the exact statement window being reconciled." },
+          { label: "Exceptions", value: "2 open items", detail: "Operators need mismatch count and severity immediately, not after drilling through export history." },
+          { label: "Last balanced", value: "Mar 10 · 6:12 PM", detail: "The last clean close tells finance how stale the current discrepancy really is." },
+        ],
+      },
+      {
+        eyebrow: "Sources",
+        title: "What is being reconciled",
+        rows: [
+          { label: "Usage ledger", value: "Live", detail: "Workflow usage remains tied back to the same underlying ledger that powers platform billing." },
+          { label: "Employer programs", value: "Included", detail: "Organization fee statements stay in the reconciliation picture without collapsing into one opaque total." },
+          { label: "Correction path", value: "Ready", detail: "If finance needs to amend a mismatch, the correction lane is already visible from the first screen." },
+        ],
+      },
+    ],
+    "organization-alerts/continuity-pressure": [
+      {
+        eyebrow: "Alert",
+        title: "Continuity-pressure cluster",
+        rows: [
+          { label: "Current severity", value: "Elevated", detail: "This alert family is active because employee access restrictions are approaching live commitment deadlines." },
+          { label: "Protected employees", value: "7", detail: "The alert should make the actual continuity cohort visible before the operator decides how to intervene." },
+          { label: "Nearest risk point", value: "Mar 15 · 4:00 PM", detail: "Time-to-risk belongs on the first screen because it drives the escalation path." },
+        ],
+      },
+      {
+        eyebrow: "Response",
+        title: "What operators must do next",
+        rows: [
+          { label: "Primary owner", value: "manager.romero@northstar.example", detail: "The response owner should be explicit so the alert never turns into a cross-team blind spot." },
+          { label: "Queue tie-in", value: "northstar-q1-access-window", detail: "Continuity alerts remain tied to the approval and restore window that can actually fix them." },
+          { label: "Org trust effect", value: "Tracked", detail: "Repeated destructive access behavior can affect organization trust posture and should be visible here." },
+        ],
+      },
+    ],
+    "audit-logs/organization-access-review": [
+      {
+        eyebrow: "Audit",
+        title: "Organization access review posture",
+        rows: [
+          { label: "Review scope", value: "Access + visibility + restore actions", detail: "This lane should make clear which classes of organization action are under review." },
+          { label: "Recent events", value: "184", detail: "The review screen should open on the actual event volume instead of a vague audit status chip." },
+          { label: "Export readiness", value: "Compliance ready", detail: "The operator should know whether the current review can already be packaged for external review." },
+        ],
+      },
+      {
+        eyebrow: "Traceability",
+        title: "Decision integrity",
+        rows: [
+          { label: "Reason capture", value: "Required", detail: "Revocations, restores, and visibility edits remain tied to explicit reasons in the audit lane." },
+          { label: "Reviewer chain", value: "Owner + audit", detail: "Higher-risk access changes stay attributable to named reviewers, not a generic workspace actor." },
+          { label: "Correction window", value: "Open", detail: "If access state was applied incorrectly, the review page keeps the correction path visible." },
+        ],
+      },
+    ],
   };
   const activeFocusPanels = pageFocusPanels[currentPageKey] ?? [];
   const pageInsightPanels: Record<
@@ -3156,6 +3925,226 @@ export function DeveloperPortalShell({
           { time: "Today · 07:30", label: "Payroll enrollment sync", detail: "The latest direct-deposit enrollments were written into the program summary and finance lane.", tone: "live" },
           { time: "Mar 15 · 09:00", label: "Next payroll window", detail: "The next payroll-linked funding event is already scheduled and visible to operations.", tone: "warning" },
           { time: "Mar 01 · 12:10", label: "Wallet policy notice accepted", detail: "The latest employee cohort acknowledged the Continuity Key and local wallet boundary during setup." },
+        ],
+      },
+    ],
+    "organization-workspace": [
+      {
+        eyebrow: "Workspace signals",
+        title: "Organization operating health",
+        meters: [
+          { label: "Employee coverage", value: "89%", detail: "Most eligible employees are already inside the managed workspace and visible to the org operators.", fill: 89 },
+          { label: "Program activation", value: "67%", detail: "Most current organization programs are active, but two still need launch cleanup before the next wave.", fill: 67 },
+          { label: "Continuity pressure", value: "14%", detail: "A smaller but meaningful slice of the workspace still needs continuity-aware intervention.", fill: 14 },
+        ],
+      },
+      {
+        eyebrow: "Workspace events",
+        title: "Operator timeline",
+        timeline: [
+          { time: "Today · 08:42", label: "Approval queue expanded", detail: "A new company-email wave increased pending access and raised continuity monitoring needs.", tone: "warning" },
+          { time: "Today · 09:18", label: "Employee directory synced", detail: "The organization roster refreshed after the latest approval and invite movements.", tone: "live" },
+          { time: "Today · 10:05", label: "Program health recalculated", detail: "Workspace-level employee, market, and billing metrics were recomputed for the daily operating view." },
+        ],
+      },
+    ],
+    "organization-workspace/northstar-central-ops": [
+      {
+        eyebrow: "Central ops",
+        title: "Northstar central operations health",
+        meters: [
+          { label: "Manager coverage", value: "93%", detail: "Nearly every active team lane has a live manager owner attached in the current workspace.", fill: 93 },
+          { label: "Approval backlog", value: "46 requests", detail: "Pending access remains the clearest source of operational pressure in this workspace.", fill: 46 },
+          { label: "Program stability", value: "81%", detail: "Most organization programs are stable, but one warehouse lane still needs attention before the next checkpoint.", fill: 81 },
+        ],
+      },
+      {
+        eyebrow: "Central ops events",
+        title: "Workspace timeline",
+        timeline: [
+          { time: "Today · 07:55", label: "Operations digest published", detail: "The daily organization summary landed for ops, people, and finance leads.", tone: "live" },
+          { time: "Today · 08:42", label: "Queue surge detected", detail: "A new employee-access burst increased the central queue load.", tone: "warning" },
+          { time: "Tomorrow · 13:00", label: "Cross-functional checkpoint", detail: "Ops, people, and finance owners review workspace health before the next launch wave." },
+        ],
+      },
+    ],
+    "manager-views": [
+      {
+        eyebrow: "Manager signals",
+        title: "Team-lane pressure",
+        meters: [
+          { label: "Healthy teams", value: "5 of 8", detail: "Most manager-owned lanes are running cleanly without restore or proof-pressure issues.", fill: 63 },
+          { label: "Attention required", value: "3 lanes", detail: "Three teams still need active approval, continuity, or proof-deadline intervention.", fill: 38 },
+          { label: "Manager review cadence", value: "Daily", detail: "Manager-owned lanes are being revisited often enough to keep the org feed current.", fill: 100 },
+        ],
+      },
+      {
+        eyebrow: "Manager events",
+        title: "Team timeline",
+        timeline: [
+          { time: "Today · 08:22", label: "Warehouse lane escalated", detail: "Warehouse Operations surfaced the most urgent combination of approvals and active commitments.", tone: "warning" },
+          { time: "Today · 09:10", label: "Two team lanes cleared", detail: "Two lower-risk teams completed their pending approvals and dropped out of the urgent queue.", tone: "live" },
+          { time: "Today · 09:45", label: "Next review wave assigned", detail: "Managers received the next scoped set of review items from central operations." },
+        ],
+      },
+    ],
+    "manager-views/warehouse-operations": [
+      {
+        eyebrow: "Warehouse signals",
+        title: "Warehouse operations lane",
+        meters: [
+          { label: "Active commitments", value: "74", detail: "The team lane is carrying a meaningful volume of live commitments that need clean continuity handling.", fill: 74 },
+          { label: "Pending approvals", value: "18", detail: "Access approvals are still the primary source of operational friction for this manager lane.", fill: 18 },
+          { label: "Proof-window exposure", value: "1 elevated", detail: "One active proof lane remains at risk and should stay visible until resolved.", fill: 25 },
+        ],
+      },
+      {
+        eyebrow: "Warehouse events",
+        title: "Team timeline",
+        timeline: [
+          { time: "Today · 08:20", label: "Org market joined", detail: "One managed employee joined a new warehouse operations market.", tone: "live" },
+          { time: "Today · 08:42", label: "Approval backlog increased", detail: "The team queue grew as the newest employee wave hit company-email review.", tone: "warning" },
+          { time: "Today · 10:30", label: "Manager review due", detail: "The next manager-owned review window is due before the afternoon proof reminders go out." },
+        ],
+      },
+    ],
+    "organization-fees": [
+      {
+        eyebrow: "Economics signals",
+        title: "Employer-side fee posture",
+        meters: [
+          { label: "Live programs", value: "3", detail: "Three employer-facing economics lanes are currently active and tracked separately from core platform fees.", fill: 100 },
+          { label: "Statement readiness", value: "91%", detail: "Most organization fee statements are clean and ready for export this cycle.", fill: 91 },
+          { label: "Margin protection", value: "100%", detail: "Current program settings are staying inside the platform’s protected economics guardrails.", fill: 100 },
+        ],
+      },
+      {
+        eyebrow: "Economics events",
+        title: "Fee-lane timeline",
+        timeline: [
+          { time: "Today · 07:40", label: "Program share statement prepared", detail: "The latest employer program economics package is ready for billing review.", tone: "live" },
+          { time: "Today · 09:15", label: "Revenue-share audit rechecked", detail: "The organization fee lane was revalidated against the current billing posture." },
+          { time: "Month end · Pending", label: "Statement export window", detail: "The employer-facing fee statements will lock for the month-end billing cycle.", tone: "warning" },
+        ],
+      },
+    ],
+    "organization-fees/northstar-program-share": [
+      {
+        eyebrow: "Program share signals",
+        title: "Northstar program share health",
+        meters: [
+          { label: "Program coverage", value: "82%", detail: "Most eligible organization-market activity is already landing in the current fee program cleanly.", fill: 82 },
+          { label: "Billing clarity", value: "95%", detail: "The employer-facing statement lane is nearly fully reconciled for this program.", fill: 95 },
+          { label: "Core-fee protection", value: "100%", detail: "The separate employer economics lane is not eroding Sovereign Spark or the core platform margin.", fill: 100 },
+        ],
+      },
+      {
+        eyebrow: "Program share events",
+        title: "Program timeline",
+        timeline: [
+          { time: "Today · 07:42", label: "Monthly statement compiled", detail: "The program-level statement was assembled for the current month.", tone: "live" },
+          { time: "Today · 08:55", label: "Program participation refreshed", detail: "Organization-market participation rolled forward into the current economics view." },
+          { time: "Tomorrow · 11:00", label: "Finance review window", detail: "Northstar finance reviews the program share statement before the next billing sync." },
+        ],
+      },
+    ],
+    "roles-permissions/manager-control-pack": [
+      {
+        eyebrow: "Permission signals",
+        title: "Control-pack stability",
+        meters: [
+          { label: "Assigned managers", value: "18", detail: "The control pack is already active across the current manager-owned team views.", fill: 100 },
+          { label: "Audit coverage", value: "100%", detail: "Every assignment, change, and use remains attached to the organization audit trail.", fill: 100 },
+          { label: "Escalation escapes", value: "0", detail: "No out-of-policy elevation attempts are currently bypassing the expected approval path.", fill: 100 },
+        ],
+      },
+      {
+        eyebrow: "Permission events",
+        title: "Control-pack timeline",
+        timeline: [
+          { time: "Today · 07:48", label: "Pack assigned to warehouse managers", detail: "The manager-control-pack was attached to the latest team-owner cohort.", tone: "live" },
+          { time: "Today · 08:52", label: "Restore authority exercised", detail: "A manager used the pack to preserve continuity access for one active employee.", tone: "warning" },
+          { time: "Mar 10 · 11:06", label: "Role template reviewed", detail: "The control pack was revalidated against the current visibility and continuity rules." },
+        ],
+      },
+    ],
+    "reports/operations-digest": [
+      {
+        eyebrow: "Digest signals",
+        title: "Operating-summary coverage",
+        meters: [
+          { label: "People coverage", value: "Full roster", detail: "The digest is already reflecting approval, restore, and managed employee movement across the whole organization.", fill: 100 },
+          { label: "Program coverage", value: "6 programs", detail: "The digest is summarizing the active organization-market and payroll program lanes together.", fill: 100 },
+          { label: "Issue pressure", value: "Moderate", detail: "The current digest still surfaces a manageable but real queue and continuity burden.", fill: 58 },
+        ],
+      },
+      {
+        eyebrow: "Digest events",
+        title: "Digest timeline",
+        timeline: [
+          { time: "Today · 07:55", label: "Daily digest published", detail: "The cross-functional operations digest was delivered to ops, people, and finance owners.", tone: "live" },
+          { time: "Today · 08:42", label: "Approval pressure highlighted", detail: "The digest flagged the queue surge as the top operating issue to clear first.", tone: "warning" },
+          { time: "Tomorrow · 07:30", label: "Next digest scheduled", detail: "The next organization operating summary is already queued for delivery." },
+        ],
+      },
+    ],
+    "reports/billing-reconciliation": [
+      {
+        eyebrow: "Reconciliation signals",
+        title: "Billing-close health",
+        meters: [
+          { label: "Ledger match", value: "96%", detail: "Most billing sources are reconciling cleanly across platform usage, exports, and employer programs.", fill: 96 },
+          { label: "Exception pressure", value: "2 items", detail: "Only two mismatches remain, but they still need operator review before the statement closes.", fill: 24 },
+          { label: "Correction readiness", value: "78%", detail: "Finance still has a clean correction lane before month-end lock.", fill: 78 },
+        ],
+      },
+      {
+        eyebrow: "Reconciliation events",
+        title: "Billing timeline",
+        timeline: [
+          { time: "Today · 07:44", label: "Reconciliation run started", detail: "The month-to-date close routine began across usage, exports, and employer program statements.", tone: "live" },
+          { time: "Today · 08:31", label: "Variance cluster isolated", detail: "Two mismatches were traced back to one export lane and one employer statement.", tone: "warning" },
+          { time: "Tomorrow · 10:00", label: "Finance close review", detail: "Finance reviews the final reconciliation state before the next invoice snapshot." },
+        ],
+      },
+    ],
+    "organization-alerts/continuity-pressure": [
+      {
+        eyebrow: "Alert signals",
+        title: "Continuity-risk movement",
+        meters: [
+          { label: "Protected employees", value: "7", detail: "Seven employees still rely on continuity access to finish active commitments safely.", fill: 100 },
+          { label: "Restore urgency", value: "72%", detail: "The alert remains elevated because one restore deadline is getting close.", fill: 72 },
+          { label: "Manager coverage", value: "93%", detail: "Most affected lanes already have an active manager owner attached.", fill: 93 },
+        ],
+      },
+      {
+        eyebrow: "Alert events",
+        title: "Continuity timeline",
+        timeline: [
+          { time: "Today · 08:42", label: "Continuity alert opened", detail: "The platform detected active commitments at risk if restore actions lag further.", tone: "warning" },
+          { time: "Today · 09:06", label: "Owner escalation sent", detail: "The alert was routed to the current manager owner and organization workspace lead.", tone: "live" },
+          { time: "Mar 15 · 16:00", label: "Nearest restore deadline", detail: "The first high-risk window closes if protected access has not been restored or resolved by then.", tone: "warning" },
+        ],
+      },
+    ],
+    "audit-logs/organization-access-review": [
+      {
+        eyebrow: "Audit signals",
+        title: "Access-review integrity",
+        meters: [
+          { label: "Reason capture", value: "100%", detail: "Every access change in this review window carries a stored reason and actor chain.", fill: 100 },
+          { label: "Review throughput", value: "184 events", detail: "The review is handling a meaningful volume of access and visibility decisions without losing traceability.", fill: 88 },
+          { label: "Export readiness", value: "92%", detail: "The audit package is nearly ready for compliance export with only one correction item left.", fill: 92 },
+        ],
+      },
+      {
+        eyebrow: "Audit events",
+        title: "Access-review timeline",
+        timeline: [
+          { time: "Today · 07:36", label: "Review window opened", detail: "The organization access audit began for the latest visibility, restore, and revocation cycle.", tone: "live" },
+          { time: "Today · 08:17", label: "Continuity override logged", detail: "One restriction path was corrected into continuity access before it could strand active commitments.", tone: "warning" },
+          { time: "Today · 09:24", label: "Compliance export prepared", detail: "The current audit slice is nearly ready to move into the compliance package lane." },
         ],
       },
     ],

@@ -1,0 +1,16 @@
+{
+  "name": "Ruzomi",
+  "short_name": "Ruzomi",
+  "description": "The network around every commitment market.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060911",
+  "theme_color": "#060911",
+  "icons": [
+    {
+      "src": "/ruzomi-tab-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}

@@ -24,14 +24,30 @@ const primaryLinks = [
   { href: "/app", label: "My Portfolio", active: (pathname: string) => pathname.startsWith("/app") },
 ];
 
-const appLinks = [
-  { href: "/app", label: "My Portfolio" },
-  { href: "/app/wallet", label: "Wallet" },
-  { href: "/app/history", label: "History" },
-  { href: "/app/pools/new", label: "New market" },
-  { href: "/app/profile", label: "Profile" },
-  { href: "/settings", label: "Settings" },
-  { href: "/docs", label: "Docs" },
+const appSections = [
+  {
+    title: "Workspace",
+    links: [
+      { href: "/app", label: "My Portfolio" },
+      { href: "/app/wallet", label: "Wallet" },
+      { href: "/app/history", label: "History" },
+    ],
+  },
+  {
+    title: "Account",
+    links: [
+      { href: "/app/profile", label: "Profile" },
+      { href: "/settings", label: "Settings" },
+      { href: "/app/reliability", label: "Rewards & access" },
+    ],
+  },
+  {
+    title: "Build",
+    links: [
+      { href: "/app/pools/new", label: "New market" },
+      { href: "/docs", label: "Docs" },
+    ],
+  },
 ];
 
 export function AppShell({
@@ -55,21 +71,22 @@ export function AppShell({
     isAuthenticated,
     identityStatus: walletState.viewer?.identityStatus,
   });
-  const visibleAppLinks = isAuthenticated
-    ? appLinks
-    : appLinks
-        .filter((link) => link.href !== "/app/profile")
-        .map((link) => ({
-          ...link,
-          href:
-            link.href === "/app/pools/new"
-              ? buildAuthHref("signup", "/app/pools/new?resumeDraft=1")
-              : link.href === "/settings"
-                ? buildAuthHref("login", "/settings")
-                : link.href.startsWith("/app")
+  const visibleAppSections = appSections.map((section) => ({
+    ...section,
+    links: (isAuthenticated ? section.links : section.links.filter((link) => link.href !== "/app/profile")).map((link) => ({
+      ...link,
+      href:
+        isAuthenticated
+          ? link.href
+          : link.href === "/app/pools/new"
+            ? buildAuthHref("signup", "/app/pools/new?resumeDraft=1")
+            : link.href === "/settings"
+              ? buildAuthHref("login", "/settings")
+              : link.href.startsWith("/app")
                 ? buildAuthHref("login", link.href)
                 : link.href,
-        }));
+    })),
+  }));
 
   if (isFundingRoute) {
     return (
@@ -145,6 +162,7 @@ export function AppShell({
                   <div className="market-console-panel market-console-panel-right shell-menu-panel">
                     <div className="market-console-header">
                       <strong className="market-console-title">Menu</strong>
+                      <span className="mono-label">Keep the next account action easy to find.</span>
                     </div>
                     <div className="market-console-grid">
                       <div className="market-console-block market-console-block-wide">
@@ -160,11 +178,20 @@ export function AppShell({
                           <span className="mono-label">Open</span>
                           <strong>Account</strong>
                         </div>
-                        <div className="console-link-grid">
-                          {visibleAppLinks.map((link) => (
-                            <Link key={link.href} className="console-link" href={link.href}>
-                              <span>{link.label}</span>
-                            </Link>
+                        <div className="shell-menu-sections">
+                          {visibleAppSections.map((section) => (
+                            <div key={section.title} className="shell-menu-section">
+                              <div className="shell-menu-section-head">
+                                <span className="mono-label">{section.title}</span>
+                              </div>
+                              <div className="shell-menu-section-list">
+                                {section.links.map((link) => (
+                                  <Link key={link.href} className="console-link" href={link.href}>
+                                    <span>{link.label}</span>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
                           ))}
                         </div>
                       </div>

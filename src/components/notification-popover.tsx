@@ -41,7 +41,7 @@ export function NotificationPopover({ notifications }: { notifications: Notifica
                 href="/app/notifications"
               >
                 <div className="notification-spotlight-copy">
-                  <span className="mono-label">Latest</span>
+                  <span className="mono-label">Latest reminder</span>
                   <strong>{latestNotification.title}</strong>
                   <p className="detail-text">{latestNotification.summary}</p>
                 </div>
@@ -92,6 +92,9 @@ export function NotificationPopover({ notifications }: { notifications: Notifica
         <div className="button-row button-row-tight">
           <Link className="action-secondary" href="/app/notifications">
             Open inbox
+          </Link>
+          <Link className="action-secondary" href="/settings#settings-notifications">
+            Settings
           </Link>
         </div>
       </div>

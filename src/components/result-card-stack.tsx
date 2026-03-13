@@ -3,6 +3,8 @@
 import { CheckCircle2, Copy, Download, Sparkles, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 
+import { buildHostAwareRuzomiHref } from "@/lib/host-links";
+import type { HostMode } from "@/lib/host-mode";
 import { buildShareCampaignText } from "@/lib/share-campaign";
 import type { ResultCard } from "@/lib/types";
 
@@ -10,12 +12,15 @@ export function ResultCardStack({
   cards,
   emptyMessage = "Result cards will appear after the first market closes.",
   activeTicketId = null,
+  hostMode = "paytocommit",
 }: {
   cards: ResultCard[];
   emptyMessage?: string;
   activeTicketId?: string | null;
+  hostMode?: HostMode;
 }) {
   const [notice, setNotice] = useState<string | null>(null);
+  const ruzomiArtifactsHref = (ticketId: string) => buildHostAwareRuzomiHref(hostMode, `/?lane=artifacts&share=${ticketId}`);
 
   if (!cards.length) {
     return <div className="empty-state">{emptyMessage}</div>;
@@ -109,7 +114,7 @@ export function ResultCardStack({
                 <Copy size={16} />
                 Copy share line
               </button>
-              <a className="result-card-action ghost" href={`/?lane=artifacts&share=${card.ticketId}`}>
+              <a className="result-card-action ghost" href={ruzomiArtifactsHref(card.ticketId)}>
                 <Sparkles size={16} />
                 Share to Ruzomi
               </a>

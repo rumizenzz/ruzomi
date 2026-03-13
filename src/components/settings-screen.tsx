@@ -6,7 +6,7 @@ import { LogoutButton } from "@/components/logout-button";
 import { ProfileSettingsPanel } from "@/components/profile-settings-panel";
 import { GlassPanel, SectionIntro } from "@/components/surfaces";
 import type { QuickstartState } from "@/lib/quickstart";
-import type { WalletState } from "@/lib/types";
+import type { IdentityStatus, WalletState } from "@/lib/types";
 
 function statusLabelFromContactSync(status: WalletState["contactSyncConsent"]["status"]) {
   if (status === "granted") {
@@ -16,6 +16,19 @@ function statusLabelFromContactSync(status: WalletState["contactSyncConsent"]["s
     return "Not enabled";
   }
   return "Not set yet";
+}
+
+function statusLabelFromIdentity(status: IdentityStatus | undefined) {
+  if (status === "verified") {
+    return "Verified";
+  }
+  if (status === "pending") {
+    return "In review";
+  }
+  if (status === "failed") {
+    return "Needs attention";
+  }
+  return "Not started";
 }
 
 export function SettingsScreen({
@@ -69,12 +82,26 @@ export function SettingsScreen({
             <span className="mono-label">Signed in as</span>
             <strong>{viewer?.displayName ?? "PayToCommit member"}</strong>
             <span className="detail-text">{viewerEmail ?? viewer?.handle ?? "No active account"}</span>
+            <div className="settings-status-row">
+              <span className="settings-status-chip">{statusLabelFromIdentity(viewer?.identityStatus)}</span>
+              <span className="settings-status-chip">{statusLabelFromContactSync(walletState.contactSyncConsent.status)}</span>
+            </div>
           </div>
 
           <div className="settings-sidebar-card">
             <span className="mono-label">Available balance</span>
             <strong>{walletState.wallet.availableLabel}</strong>
             <span className="detail-text">Funding, payout, and active stake controls stay in sync with this balance.</span>
+          </div>
+
+          <div className="settings-sidebar-actions">
+            <Link className="action-secondary settings-sidebar-action" href="/app/notifications">
+              Notifications
+            </Link>
+            <Link className="action-secondary settings-sidebar-action" href="/app/wallet">
+              Wallet
+            </Link>
+            <LogoutButton className="action-secondary settings-sidebar-action" label="Log out" />
           </div>
         </GlassPanel>
 

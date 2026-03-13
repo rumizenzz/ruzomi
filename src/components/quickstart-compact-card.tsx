@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Bot, Circle, Landmark, MailCheck, Search, Wallet } from "lucide-react";
 
+import { buildHostAwareRuzomiHref } from "@/lib/host-links";
+import type { HostMode } from "@/lib/host-mode";
 import type { QuickstartState } from "@/lib/quickstart";
 
 function CompactStepIcon({ index, status }: { index: number; status: "locked" | "current" | "completed" }) {
@@ -35,14 +37,17 @@ export function QuickstartCompactCard({
   state,
   className = "",
   variant = "default",
+  hostMode = "paytocommit",
 }: {
   state: QuickstartState;
   className?: string;
   variant?: "default" | "inline";
+  hostMode?: HostMode;
 }) {
   const progress = Math.max(12, Math.round((state.completedCount / state.totalCount) * 100));
   const fundStep = state.steps.find((step) => step.id === "fund") ?? state.steps[2];
   const nextStep = state.nextStep;
+  const ruzomiHref = buildHostAwareRuzomiHref(hostMode);
 
   if (variant === "inline") {
     return (
@@ -121,7 +126,7 @@ export function QuickstartCompactCard({
             <strong>Post your first commitment on Ruzomi</strong>
             <p className="detail-text">Say it in your own words, keep it natural, and make the commitment visible to the people following your lane.</p>
           </div>
-          <Link className="action-secondary quickstart-social-link" href="/">
+          <Link className="action-secondary quickstart-social-link" href={ruzomiHref}>
             Open Ruzomi
           </Link>
         </div>
@@ -208,7 +213,7 @@ export function QuickstartCompactCard({
           <strong>Post your first commitment on Ruzomi</strong>
           <p className="detail-text">Keep the post in your own voice. The point is to make the commitment feel social, not scripted.</p>
         </div>
-        <Link className="action-secondary quickstart-social-link" href="/">
+        <Link className="action-secondary quickstart-social-link" href={ruzomiHref}>
           Open Ruzomi
         </Link>
       </div>

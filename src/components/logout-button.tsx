@@ -8,9 +8,11 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 export function LogoutButton({
   className = "action-secondary",
   label = "Log out",
+  redirectTo = "/login",
 }: {
   className?: string;
   label?: string;
+  redirectTo?: string;
 }) {
   const router = useRouter();
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
@@ -23,7 +25,12 @@ export function LogoutButton({
 
     setIsLoggingOut(true);
     await supabase.auth.signOut();
-    router.push("/login");
+    if (redirectTo.startsWith("http://") || redirectTo.startsWith("https://")) {
+      window.location.assign(redirectTo);
+      return;
+    }
+
+    router.push(redirectTo);
     router.refresh();
   }
 

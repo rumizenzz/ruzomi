@@ -11,6 +11,11 @@ export default async function MarketingLayout({
   children: React.ReactNode;
 }) {
   const hostMode = getHostModeFromHost((await headers()).get("host"));
+
+  if (hostMode !== "paytocommit") {
+    return children;
+  }
+
   const sessionToken = await getAuthenticatedAppSessionToken();
   const initialSiteState = await getSiteState(sessionToken);
 

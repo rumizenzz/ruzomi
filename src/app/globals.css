@@ -3073,6 +3073,84 @@ html[data-theme="dark"] .category-market-card:hover {
   color: var(--text-soft);
 }
 
+.surface-loading-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.surface-loading-panel {
+  width: min(760px, 100%);
+  display: grid;
+  gap: 1.4rem;
+  padding: 1.75rem;
+  border-radius: 32px;
+  border: 1px solid rgba(9, 215, 247, 0.16);
+  background:
+    radial-gradient(circle at top right, rgba(9, 215, 247, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 251, 255, 0.92));
+  box-shadow:
+    0 28px 70px rgba(8, 32, 50, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.surface-loading-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.surface-loading-eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.surface-loading-copy strong {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  letter-spacing: -0.05em;
+}
+
+.surface-loading-copy p {
+  margin: 0;
+  max-width: 44rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.surface-loading-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.surface-loading-block {
+  min-height: 120px;
+  border-radius: 24px;
+  border: 1px solid rgba(9, 215, 247, 0.12);
+  background:
+    linear-gradient(115deg, rgba(9, 215, 247, 0.06), rgba(9, 215, 247, 0.18), rgba(9, 215, 247, 0.06)),
+    rgba(255, 255, 255, 0.76);
+  background-size: 220% 100%;
+  animation: loadingShimmer 1.6s linear infinite;
+}
+
+.surface-loading-block-hero {
+  grid-column: 1 / -1;
+  min-height: 168px;
+}
+
+@keyframes loadingShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -20% 0;
+  }
+}
+
 .page-hero-card {
   min-height: 100%;
 }
@@ -5339,13 +5417,13 @@ html[data-theme="dark"] .market-momentum span {
 }
 
 .shell-menu-panel {
-  width: min(440px, calc(100vw - 1.5rem));
-  padding: 0.82rem;
+  width: min(368px, calc(100vw - 1.25rem));
+  padding: 0.68rem;
   border-color: rgba(53, 235, 255, 0.14);
   background:
     linear-gradient(180deg, rgba(4, 18, 29, 0.98), rgba(4, 16, 27, 0.98)),
     radial-gradient(circle at top, rgba(18, 226, 255, 0.06), transparent 50%);
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
 }
 
 .shell-menu-panel .market-console-block,
@@ -5357,29 +5435,58 @@ html[data-theme="dark"] .market-momentum span {
 }
 
 .shell-menu-panel .market-console-header {
-  margin-bottom: 0.72rem;
+  margin-bottom: 0.58rem;
 }
 
 .shell-menu-panel .market-console-grid {
-  gap: 0.62rem;
+  gap: 0.52rem;
 }
 
 .shell-menu-panel .market-console-block {
-  gap: 0.6rem;
-  padding: 0.78rem;
-  border-radius: 13px;
+  gap: 0.5rem;
+  padding: 0.68rem 0.72rem;
+  border-radius: 12px;
 }
 
 .shell-menu-panel .console-link-grid,
 .shell-menu-panel .console-category-grid {
-  gap: 0.55rem;
+  gap: 0.45rem;
 }
 
 .shell-menu-panel .console-link,
 .shell-menu-panel .console-category-link {
-  min-height: 46px;
-  padding: 0.72rem 0.8rem;
+  min-height: 40px;
+  padding: 0.62rem 0.72rem;
   border-radius: 12px;
+}
+
+.shell-menu-panel .console-category-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.shell-menu-sections {
+  display: grid;
+  gap: 0.58rem;
+}
+
+.shell-menu-section {
+  display: grid;
+  gap: 0.38rem;
+}
+
+.shell-menu-section-list {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.shell-menu-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shell-menu-section-head .mono-label {
+  opacity: 0.88;
 }
 
 .shell-menu-panel .console-link:hover,
@@ -5393,26 +5500,26 @@ html[data-theme="dark"] .market-momentum span {
 }
 
 .account-menu-trigger {
-  min-width: 112px;
+  min-width: 102px;
 }
 
 .account-menu-panel {
-  width: min(410px, calc(100vw - 1.5rem));
+  width: min(352px, calc(100vw - 1.25rem));
 }
 
 .account-menu-grid {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.45rem;
 }
 
 .account-menu-link {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0.9rem;
-  min-height: 68px;
-  padding: 0.82rem 0.88rem;
-  border-radius: 13px;
+  gap: 0.72rem;
+  min-height: 58px;
+  padding: 0.72rem 0.78rem;
+  border-radius: 12px;
   border: 1px solid rgba(53, 235, 255, 0.1);
   background: rgba(8, 27, 40, 0.78);
   color: #f0fbff;
@@ -5436,25 +5543,35 @@ html[data-theme="dark"] .market-momentum span {
 }
 
 .account-menu-link-copy strong {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   letter-spacing: -0.03em;
 }
 
 .account-menu-link-copy span {
   color: rgba(204, 233, 242, 0.76);
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   line-height: 1.35;
 }
 
 .account-menu-footer {
   display: grid;
-  gap: 0.72rem;
-  margin-top: 0.72rem;
-  padding-top: 0.72rem;
+  gap: 0.58rem;
+  margin-top: 0.62rem;
+  padding-top: 0.62rem;
   border-top: 1px solid rgba(53, 235, 255, 0.1);
 }
 
+.account-menu-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.52rem;
+}
+
 .account-menu-logout {
+  width: 100%;
+}
+
+.account-menu-secondary {
   width: 100%;
 }
 
@@ -9709,16 +9826,16 @@ body::after {
 }
 
 .notification-panel {
-  width: min(380px, calc(100vw - 2rem));
-  padding-bottom: 1rem;
+  width: min(340px, calc(100vw - 1.25rem));
+  padding-bottom: 0.78rem;
 }
 
 .notification-spotlight {
   display: grid;
-  gap: 0.85rem;
-  padding: 1rem 1rem 1.05rem;
-  margin-bottom: 0.8rem;
-  border-radius: 22px;
+  gap: 0.72rem;
+  padding: 0.88rem 0.9rem 0.94rem;
+  margin-bottom: 0.68rem;
+  border-radius: 18px;
   border: 1px solid rgba(53, 235, 255, 0.14);
   background:
     radial-gradient(circle at top right, rgba(107, 240, 255, 0.18), transparent 38%),
@@ -9743,7 +9860,7 @@ body::after {
 }
 
 .notification-spotlight-copy strong {
-  font-size: 1.02rem;
+  font-size: 0.96rem;
   line-height: 1.2;
 }
 
@@ -9757,16 +9874,16 @@ body::after {
 
 .notification-list {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.55rem;
 }
 
 .notification-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: start;
-  gap: 0.72rem;
-  padding: 0.92rem 1rem;
-  border-radius: 18px;
+  gap: 0.64rem;
+  padding: 0.8rem 0.84rem;
+  border-radius: 15px;
   border: 1px solid rgba(53, 235, 255, 0.12);
   background: rgba(7, 24, 36, 0.82);
   color: inherit;
@@ -9794,8 +9911,8 @@ body::after {
 }
 
 .notification-icon {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -9864,28 +9981,28 @@ body::after {
 .notification-empty {
   display: grid;
   gap: 0.45rem;
-  padding: 1rem;
-  border-radius: 18px;
+  padding: 0.88rem;
+  border-radius: 15px;
   border: 1px solid rgba(53, 235, 255, 0.1);
   background: rgba(7, 24, 36, 0.74);
 }
 
 .settings-screen {
-  gap: 1rem;
+  gap: 0.88rem;
 }
 
 .settings-layout {
   display: grid;
-  grid-template-columns: minmax(230px, 0.38fr) minmax(0, 1fr);
-  gap: 1rem;
+  grid-template-columns: minmax(218px, 0.34fr) minmax(0, 1fr);
+  gap: 0.88rem;
   align-items: start;
 }
 
 .settings-sidebar,
 .settings-card {
   display: grid;
-  gap: 0.9rem;
-  padding: 1rem;
+  gap: 0.82rem;
+  padding: 0.92rem;
 }
 
 .settings-sidebar {
@@ -9900,14 +10017,14 @@ body::after {
 
 .settings-anchor-list {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.38rem;
 }
 
 .settings-anchor-link {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
-  padding: 0.68rem 0.78rem;
+  min-height: 38px;
+  padding: 0.62rem 0.72rem;
   border-radius: 12px;
   border: 1px solid rgba(53, 235, 255, 0.1);
   background: rgba(8, 27, 40, 0.74);
@@ -9928,11 +10045,43 @@ body::after {
 
 .settings-sidebar-card {
   display: grid;
-  gap: 0.2rem;
-  padding: 0.82rem 0.88rem;
+  gap: 0.28rem;
+  padding: 0.76rem 0.8rem;
   border-radius: 13px;
   border: 1px solid rgba(53, 235, 255, 0.1);
   background: rgba(8, 27, 40, 0.72);
+}
+
+.settings-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.14rem;
+}
+
+.settings-status-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(53, 235, 255, 0.12);
+  background: rgba(6, 23, 36, 0.82);
+  color: rgba(224, 246, 255, 0.86);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.settings-sidebar-actions {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.settings-sidebar-action {
+  width: 100%;
 }
 
 .settings-content {
@@ -11545,6 +11694,1497 @@ html[data-theme="light"] .forge-neutral-notice {
   color: rgba(202, 243, 255, 0.94);
   font-size: 0.78rem;
   font-weight: 700;
+}
+
+.developer-hub-shell,
+.platform-workspace-shell,
+.platform-auth-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(114, 223, 255, 0.12), transparent 22%),
+    linear-gradient(180deg, #f6f8fb 0%, #eef2f7 100%);
+  color: #122334;
+}
+
+.platform-auth-shell {
+  background:
+    radial-gradient(circle at top left, rgba(18, 177, 255, 0.08), transparent 18%),
+    linear-gradient(180deg, #f7f7f4 0%, #f1f2f0 100%);
+  color: #101827;
+}
+
+.developer-hub-topbar,
+.platform-workspace-topbar,
+.platform-auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid rgba(15, 24, 38, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+}
+
+.platform-auth-header-minimal {
+  justify-content: flex-start;
+  border-bottom: none;
+  background: transparent;
+  backdrop-filter: none;
+  padding-top: 1.55rem;
+}
+
+.developer-hub-brand,
+.platform-workspace-brand-link,
+.platform-auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #101a2a;
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.platform-auth-brand-copy {
+  display: grid;
+  gap: 0.05rem;
+}
+
+.platform-auth-brand-copy strong {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.platform-auth-brand-copy small {
+  color: rgba(15, 23, 42, 0.56);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.developer-hub-brand-mark,
+.platform-workspace-brand-mark,
+.platform-auth-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: #111827;
+  color: #f8fbff;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.developer-hub-nav,
+.platform-workspace-topnav {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+}
+
+.developer-hub-nav a,
+.platform-workspace-toplink,
+.platform-auth-docs-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  color: rgba(15, 23, 42, 0.82);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.developer-hub-nav a:hover,
+.developer-hub-nav a:focus-visible,
+.platform-workspace-toplink:hover,
+.platform-workspace-toplink:focus-visible,
+.platform-auth-docs-link:hover,
+.platform-auth-docs-link:focus-visible {
+  background: rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+}
+
+.developer-hub-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.developer-hub-dashboard-link,
+.developer-hub-primary,
+.platform-auth-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.8rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #10131a;
+  color: #f8fbff;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.developer-hub-dashboard-link:hover,
+.developer-hub-dashboard-link:focus-visible,
+.developer-hub-primary:hover,
+.developer-hub-primary:focus-visible,
+.platform-auth-primary:hover,
+.platform-auth-primary:focus-visible {
+  transform: translateY(-1px);
+}
+
+.developer-hub-main,
+.platform-workspace-layout {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+}
+
+.platform-auth-center {
+  width: min(100%, 1440px);
+  min-height: calc(100vh - 5rem);
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.75rem 4rem;
+}
+
+.developer-hub-main {
+  display: grid;
+  gap: 1.6rem;
+  padding: 2rem 1.75rem 2.5rem;
+}
+
+.developer-hub-hero,
+.platform-workspace-hero,
+.platform-auth-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.6rem;
+  border-radius: 28px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+}
+
+.platform-auth-card-compact {
+  width: min(100%, 26.5rem);
+  gap: 1rem;
+  padding: 1.7rem 1.65rem 1.55rem;
+  border-radius: 28px;
+  border-color: rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+}
+
+.developer-hub-eyebrow,
+.platform-workspace-eyebrow,
+.platform-auth-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 1.9rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(20, 28, 44, 0.06);
+  color: #30435e;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.developer-hub-hero h1,
+.platform-workspace-hero-copy h1,
+.platform-auth-copy h1 {
+  margin: 0;
+  color: #101827;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.platform-auth-copy-centered {
+  text-align: center;
+}
+
+.platform-auth-copy-centered p {
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.developer-hub-hero p,
+.platform-workspace-hero-copy p,
+.platform-auth-copy p {
+  margin: 0;
+  max-width: 26rem;
+  color: rgba(15, 23, 42, 0.68);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.developer-hub-hero-actions,
+.platform-auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.platform-auth-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.platform-auth-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.platform-auth-field > span {
+  color: rgba(15, 23, 42, 0.78);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.platform-auth-input {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3.45rem;
+  padding: 0 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  color: #101827;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.platform-auth-input svg {
+  flex: 0 0 auto;
+  color: rgba(15, 23, 42, 0.48);
+}
+
+.platform-auth-input input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #101827;
+  font-size: 1rem;
+}
+
+.platform-auth-input input::placeholder {
+  color: rgba(15, 23, 42, 0.42);
+}
+
+.platform-auth-visibility {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(15, 23, 42, 0.48);
+}
+
+.platform-auth-submit {
+  width: 100%;
+  min-height: 3.5rem;
+  font-size: 1rem;
+}
+
+.platform-auth-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  color: rgba(15, 23, 42, 0.72);
+  font-size: 0.95rem;
+}
+
+.platform-auth-switch button {
+  border: 0;
+  background: transparent;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.platform-auth-switch a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.platform-auth-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.5rem;
+}
+
+.platform-auth-divider::before {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  border-top: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.platform-auth-divider span {
+  position: relative;
+  z-index: 1;
+  padding: 0 0.85rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: rgba(15, 23, 42, 0.56);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.platform-auth-provider-stack {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.platform-auth-provider {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 3.3rem;
+  padding: 0 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  color: #111827;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.platform-auth-provider-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.platform-auth-provider-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.platform-auth-notice {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.platform-auth-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  color: rgba(15, 23, 42, 0.5);
+  font-size: 0.9rem;
+}
+
+.platform-auth-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.developer-hub-secondary,
+.platform-auth-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.8rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+  color: #101827;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.developer-hub-grid,
+.developer-hub-reference-grid,
+.platform-auth-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.developer-hub-card,
+.developer-hub-reference-item,
+.platform-auth-grid article {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1.25rem;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  color: #142233;
+  text-decoration: none;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.06);
+}
+
+.developer-hub-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.developer-hub-card strong,
+.developer-hub-reference-item strong,
+.platform-auth-grid strong {
+  color: #101827;
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+
+.developer-hub-card-link,
+.developer-hub-reference-item p,
+.platform-auth-grid article,
+.platform-auth-grid strong,
+.platform-auth-grid span {
+  color: rgba(15, 23, 42, 0.72);
+}
+
+.developer-hub-reference-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.developer-hub-reference-heading h2 {
+  margin: 0.2rem 0 0;
+  font-size: 1.65rem;
+  line-height: 1.1;
+  color: #101827;
+}
+
+.developer-hub-inline-link {
+  color: #1e40af;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.developer-hub-article-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 16rem) minmax(0, 1fr) minmax(16rem, 20rem);
+  gap: 1rem;
+}
+
+.developer-hub-side-list,
+.developer-hub-article,
+.developer-hub-rail-card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.15rem;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.06);
+}
+
+.developer-hub-side-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(15, 23, 42, 0.72);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.developer-hub-side-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.7rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 14px;
+  color: rgba(15, 23, 42, 0.74);
+  text-decoration: none;
+}
+
+.developer-hub-side-link:hover,
+.developer-hub-side-link:focus-visible,
+.developer-hub-side-link.is-active {
+  background: rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+}
+
+.developer-hub-article-header h1 {
+  margin: 0.3rem 0 0;
+  color: #101827;
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  line-height: 1.06;
+}
+
+.developer-hub-article-header p,
+.developer-hub-article-section p,
+.developer-hub-rail-card p,
+.developer-hub-code p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.72);
+  line-height: 1.62;
+}
+
+.developer-hub-article-section {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.developer-hub-article-section h2 {
+  margin: 0;
+  color: #101827;
+  font-size: 1.25rem;
+}
+
+.developer-hub-code {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.15rem;
+  border-radius: 20px;
+  background: #111827;
+  color: #dbeafe;
+}
+
+.developer-hub-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: rgba(219, 234, 254, 0.78);
+}
+
+.developer-hub-code pre {
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.platform-auth-shell {
+  display: grid;
+  align-content: start;
+}
+
+.platform-auth-card {
+  width: min(100%, 960px);
+  margin: 3rem auto 0;
+}
+
+.platform-auth-grid article {
+  align-content: start;
+}
+
+.platform-workspace-layout {
+  display: grid;
+  grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem 2.25rem;
+}
+
+.platform-workspace-brand {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.platform-workspace-breadcrumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(15, 23, 42, 0.56);
+  font-size: 0.88rem;
+}
+
+.platform-workspace-profile {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.platform-workspace-icon-button,
+.platform-workspace-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  color: #111827;
+  cursor: pointer;
+}
+
+.platform-workspace-avatar {
+  width: 2.55rem;
+  font-weight: 700;
+}
+
+.platform-profile-menu {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  gap: 0.85rem;
+  width: min(20rem, 90vw);
+  padding: 1rem;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+}
+
+.platform-profile-header {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.platform-profile-header strong {
+  color: #111827;
+  font-size: 1rem;
+}
+
+.platform-profile-header span {
+  color: rgba(15, 23, 42, 0.6);
+  font-size: 0.9rem;
+}
+
+.platform-profile-themes {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.platform-profile-theme-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.4rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(15, 23, 42, 0.04);
+  color: rgba(15, 23, 42, 0.78);
+  cursor: pointer;
+}
+
+.platform-profile-theme-chip.is-active {
+  border-color: rgba(37, 99, 235, 0.24);
+  background: rgba(37, 99, 235, 0.08);
+  color: #0f172a;
+}
+
+.platform-profile-links {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.platform-profile-links a,
+.platform-profile-logout {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.65rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 14px;
+  color: rgba(15, 23, 42, 0.82);
+  text-decoration: none;
+}
+
+.platform-profile-links a:hover,
+.platform-profile-links a:focus-visible,
+.platform-profile-logout:hover,
+.platform-profile-logout:focus-visible {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.platform-workspace-sidebar,
+.platform-workspace-main,
+.platform-workspace-metric,
+.platform-workspace-card,
+.platform-workspace-section,
+.platform-workspace-panel,
+.platform-workspace-related-item {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.06);
+}
+
+.platform-workspace-sidebar,
+.platform-workspace-main {
+  border-radius: 28px;
+}
+
+.platform-workspace-sidebar {
+  display: grid;
+  gap: 0.95rem;
+  align-content: start;
+  padding: 1.15rem;
+}
+
+.platform-sidebar-section {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.platform-sidebar-label {
+  color: rgba(15, 23, 42, 0.48);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.platform-sidebar-list {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.platform-sidebar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 2.8rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 14px;
+  color: rgba(15, 23, 42, 0.76);
+  text-decoration: none;
+}
+
+.platform-sidebar-link:hover,
+.platform-sidebar-link:focus-visible,
+.platform-sidebar-link.is-active {
+  background: rgba(15, 23, 42, 0.06);
+  color: #101827;
+}
+
+.platform-workspace-main {
+  display: grid;
+  gap: 1rem;
+  padding: 1.3rem;
+}
+
+.platform-workspace-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.3rem;
+  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(15, 23, 42, 0.03);
+  color: rgba(15, 23, 42, 0.62);
+}
+
+.platform-workspace-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.platform-workspace-metric,
+.platform-workspace-card,
+.platform-workspace-section,
+.platform-workspace-panel,
+.platform-workspace-code,
+.platform-workspace-related-item {
+  padding: 1rem 1.05rem;
+  border-radius: 22px;
+}
+
+.platform-workspace-metric {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.platform-workspace-metric span,
+.platform-workspace-metric small,
+.platform-workspace-card p,
+.platform-workspace-section p,
+.platform-workspace-panel p,
+.platform-workspace-related-item span {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.66);
+}
+
+.platform-workspace-metric strong,
+.platform-workspace-card h2,
+.platform-workspace-section h3,
+.platform-workspace-related-item strong {
+  margin: 0;
+  color: #101827;
+}
+
+.platform-workspace-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+  gap: 1rem;
+}
+
+.platform-workspace-article,
+.platform-workspace-rail,
+.platform-workspace-related,
+.platform-workspace-action-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.platform-workspace-card-header,
+.platform-workspace-panel-header,
+.platform-workspace-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.platform-workspace-card-header a,
+.platform-workspace-action,
+.platform-workspace-related-item {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.platform-workspace-section {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.platform-workspace-code {
+  display: grid;
+  gap: 0.75rem;
+  background: #0f172a;
+  color: #dbeafe;
+}
+
+.platform-workspace-code pre {
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.platform-workspace-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.8rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(29, 78, 216, 0.12);
+  background: rgba(29, 78, 216, 0.04);
+}
+
+html[data-theme="dark"] .developer-hub-shell,
+html[data-theme="dark"] .platform-workspace-shell,
+html[data-theme="dark"] .platform-auth-shell {
+  background:
+    radial-gradient(circle at top right, rgba(114, 223, 255, 0.14), transparent 22%),
+    linear-gradient(180deg, #060b12 0%, #09111d 100%);
+  color: rgba(233, 244, 255, 0.94);
+}
+
+html[data-theme="dark"] .platform-auth-shell {
+  background:
+    radial-gradient(circle at top left, rgba(73, 182, 255, 0.16), transparent 18%),
+    linear-gradient(180deg, #090b10 0%, #121720 100%);
+}
+
+html[data-theme="dark"] .developer-hub-topbar,
+html[data-theme="dark"] .platform-workspace-topbar,
+html[data-theme="dark"] .platform-auth-header,
+html[data-theme="dark"] .developer-hub-card,
+html[data-theme="dark"] .developer-hub-reference-item,
+html[data-theme="dark"] .developer-hub-side-list,
+html[data-theme="dark"] .developer-hub-article,
+html[data-theme="dark"] .developer-hub-rail-card,
+html[data-theme="dark"] .developer-hub-hero,
+html[data-theme="dark"] .platform-auth-card,
+html[data-theme="dark"] .platform-workspace-sidebar,
+html[data-theme="dark"] .platform-workspace-main,
+html[data-theme="dark"] .platform-workspace-metric,
+html[data-theme="dark"] .platform-workspace-card,
+html[data-theme="dark"] .platform-workspace-section,
+html[data-theme="dark"] .platform-workspace-panel,
+html[data-theme="dark"] .platform-workspace-related-item,
+html[data-theme="dark"] .platform-profile-menu {
+  border-color: rgba(143, 223, 255, 0.14);
+  background: rgba(8, 16, 31, 0.9);
+  box-shadow: 0 24px 70px rgba(4, 11, 23, 0.28);
+}
+
+html[data-theme="dark"] .platform-auth-header-minimal {
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .developer-hub-brand,
+html[data-theme="dark"] .platform-workspace-brand-link,
+html[data-theme="dark"] .platform-auth-brand,
+html[data-theme="dark"] .platform-auth-brand-copy strong,
+html[data-theme="dark"] .developer-hub-hero h1,
+html[data-theme="dark"] .platform-workspace-hero-copy h1,
+html[data-theme="dark"] .platform-auth-copy h1,
+html[data-theme="dark"] .developer-hub-card strong,
+html[data-theme="dark"] .developer-hub-reference-item strong,
+html[data-theme="dark"] .developer-hub-reference-heading h2,
+html[data-theme="dark"] .developer-hub-article-header h1,
+html[data-theme="dark"] .developer-hub-article-section h2,
+html[data-theme="dark"] .platform-workspace-metric strong,
+html[data-theme="dark"] .platform-workspace-card h2,
+html[data-theme="dark"] .platform-workspace-section h3,
+html[data-theme="dark"] .platform-workspace-related-item strong,
+html[data-theme="dark"] .platform-profile-header strong {
+  color: rgba(244, 251, 255, 0.98);
+}
+
+html[data-theme="dark"] .developer-hub-nav a,
+html[data-theme="dark"] .platform-workspace-toplink,
+html[data-theme="dark"] .platform-auth-docs-link,
+html[data-theme="dark"] .platform-auth-brand-copy small,
+html[data-theme="dark"] .platform-sidebar-link,
+html[data-theme="dark"] .platform-profile-links a,
+html[data-theme="dark"] .platform-profile-logout,
+html[data-theme="dark"] .developer-hub-side-link,
+html[data-theme="dark"] .platform-workspace-metric span,
+html[data-theme="dark"] .platform-workspace-metric small,
+html[data-theme="dark"] .platform-workspace-card p,
+html[data-theme="dark"] .platform-workspace-section p,
+html[data-theme="dark"] .platform-workspace-panel p,
+html[data-theme="dark"] .platform-workspace-related-item span,
+html[data-theme="dark"] .developer-hub-hero p,
+html[data-theme="dark"] .platform-workspace-hero-copy p,
+html[data-theme="dark"] .platform-auth-copy p,
+html[data-theme="dark"] .developer-hub-article-header p,
+html[data-theme="dark"] .developer-hub-article-section p,
+html[data-theme="dark"] .developer-hub-rail-card p,
+html[data-theme="dark"] .developer-hub-code p,
+html[data-theme="dark"] .platform-profile-header span {
+  color: rgba(199, 227, 242, 0.78);
+}
+
+html[data-theme="dark"] .platform-workspace-search,
+html[data-theme="dark"] .platform-profile-theme-chip,
+html[data-theme="dark"] .platform-workspace-icon-button,
+html[data-theme="dark"] .platform-workspace-avatar,
+html[data-theme="dark"] .platform-auth-input,
+html[data-theme="dark"] .platform-auth-provider {
+  border-color: rgba(143, 223, 255, 0.14);
+  background: rgba(11, 21, 38, 0.88);
+  color: rgba(236, 247, 255, 0.92);
+}
+
+html[data-theme="dark"] .platform-auth-field > span,
+html[data-theme="dark"] .platform-auth-switch,
+html[data-theme="dark"] .platform-auth-footer,
+html[data-theme="dark"] .platform-auth-divider span {
+  color: rgba(199, 227, 242, 0.72);
+}
+
+html[data-theme="dark"] .platform-auth-input input {
+  color: rgba(244, 251, 255, 0.98);
+}
+
+html[data-theme="dark"] .platform-auth-input input::placeholder,
+html[data-theme="dark"] .platform-auth-input svg,
+html[data-theme="dark"] .platform-auth-visibility {
+  color: rgba(199, 227, 242, 0.48);
+}
+
+html[data-theme="dark"] .platform-auth-divider::before {
+  border-top-color: rgba(143, 223, 255, 0.12);
+}
+
+html[data-theme="dark"] .platform-auth-divider span {
+  background: rgba(8, 16, 31, 0.9);
+}
+
+html[data-theme="dark"] .platform-auth-notice {
+  color: #ff9d8f;
+}
+
+.platform-auth-shell,
+.platform-workspace-shell,
+.developer-hub-shell {
+  background:
+    radial-gradient(circle at top right, rgba(17, 24, 39, 0.06), transparent 22%),
+    linear-gradient(180deg, #f5f5f2 0%, #f0f1ee 100%);
+  color: #111827;
+}
+
+.platform-auth-shell {
+  background:
+    radial-gradient(circle at top right, rgba(17, 24, 39, 0.05), transparent 24%),
+    linear-gradient(180deg, #f7f7f5 0%, #f2f3ef 100%);
+}
+
+.developer-hub-topbar,
+.platform-workspace-topbar,
+.platform-auth-header {
+  padding: 1.15rem 1.75rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(247, 247, 245, 0.88);
+  backdrop-filter: blur(16px);
+}
+
+.platform-auth-header-minimal {
+  padding-top: 1.4rem;
+  border-bottom: none;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.developer-hub-brand-mark,
+.platform-workspace-brand-mark,
+.platform-auth-brand-mark {
+  background: #111827;
+  color: #f9fafb;
+  box-shadow: none;
+}
+
+.developer-hub-nav a,
+.platform-workspace-toplink,
+.platform-auth-docs-link {
+  min-height: 2.35rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 14px;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.developer-hub-nav a.is-active,
+.platform-workspace-toplink.is-active {
+  background: rgba(15, 23, 42, 0.08);
+  color: #111827;
+}
+
+.developer-hub-dashboard-link,
+.developer-hub-primary,
+.platform-auth-primary,
+.platform-workspace-hero-primary {
+  min-height: 2.8rem;
+  padding: 0.75rem 1.15rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #111827;
+  box-shadow: none;
+}
+
+.developer-hub-secondary,
+.platform-auth-secondary,
+.platform-workspace-hero-secondary {
+  min-height: 2.8rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: #111827;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.platform-auth-center {
+  min-height: calc(100vh - 4.75rem);
+  padding: 2.5rem 1.75rem 4rem;
+}
+
+.platform-auth-card-compact {
+  width: min(100%, 28rem);
+  gap: 1.1rem;
+  padding: 2rem 1.85rem 1.65rem;
+  border-radius: 28px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+}
+
+.platform-auth-copy h1 {
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
+  line-height: 1;
+}
+
+.platform-auth-copy p {
+  max-width: 28rem;
+  font-size: 1rem;
+  color: rgba(17, 24, 39, 0.66);
+}
+
+.platform-auth-input {
+  min-height: 3.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: none;
+}
+
+.platform-auth-submit {
+  min-height: 3.9rem;
+  border-radius: 999px;
+  font-size: 1rem;
+}
+
+.platform-auth-provider-stack {
+  gap: 0.8rem;
+}
+
+.platform-auth-provider {
+  min-height: 3.45rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: none;
+}
+
+.platform-auth-provider:hover,
+.platform-auth-provider:focus-visible {
+  background: #ffffff;
+}
+
+.platform-workspace-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.platform-workspace-layout {
+  width: min(100%, 1540px);
+  grid-template-columns: minmax(15rem, 16.5rem) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 1.75rem 2rem;
+}
+
+.platform-workspace-brand {
+  gap: 0.18rem;
+}
+
+.platform-workspace-brand-link {
+  font-size: 1.02rem;
+}
+
+.platform-workspace-breadcrumbs {
+  color: rgba(15, 23, 42, 0.5);
+  font-size: 0.84rem;
+}
+
+.platform-workspace-sidebar,
+.platform-workspace-main,
+.platform-workspace-metric,
+.platform-workspace-card,
+.platform-workspace-section,
+.platform-workspace-panel,
+.platform-workspace-related-item,
+.platform-profile-menu,
+.developer-hub-card,
+.developer-hub-reference-item,
+.developer-hub-side-list,
+.developer-hub-article,
+.developer-hub-rail-card,
+.developer-hub-banner,
+.developer-hub-hero {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.05);
+}
+
+.platform-workspace-sidebar,
+.platform-workspace-main {
+  border-radius: 24px;
+}
+
+.platform-workspace-sidebar {
+  gap: 0.8rem;
+  padding: 0.95rem;
+}
+
+.platform-sidebar-label {
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+}
+
+.platform-sidebar-link {
+  min-height: 2.55rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.platform-sidebar-link.is-active {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.platform-workspace-main {
+  gap: 0.9rem;
+  padding: 1.1rem;
+}
+
+.platform-workspace-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 25rem);
+  align-items: end;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.platform-workspace-hero-copy h1 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.02;
+}
+
+.platform-workspace-hero-copy p {
+  max-width: 40rem;
+  color: rgba(17, 24, 39, 0.68);
+}
+
+.platform-workspace-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.platform-workspace-search {
+  min-height: 3.2rem;
+  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #f8fafc;
+}
+
+.platform-workspace-metrics {
+  gap: 0.75rem;
+}
+
+.platform-workspace-metric,
+.platform-workspace-card,
+.platform-workspace-section,
+.platform-workspace-panel,
+.platform-workspace-code,
+.platform-workspace-related-item {
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+.platform-workspace-content {
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+  gap: 0.9rem;
+}
+
+.platform-workspace-card-header a,
+.platform-workspace-action,
+.platform-workspace-related-item,
+.developer-hub-inline-link {
+  color: #2563eb;
+}
+
+.platform-workspace-action {
+  min-height: 2.7rem;
+  border-radius: 14px;
+  border: 1px solid rgba(37, 99, 235, 0.14);
+  background: rgba(37, 99, 235, 0.03);
+}
+
+.platform-workspace-checklist {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.platform-workspace-checkitem {
+  display: grid;
+  gap: 0.18rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(15, 23, 42, 0.025);
+}
+
+.platform-workspace-checkitem.is-complete {
+  border-color: rgba(5, 150, 105, 0.18);
+  background: rgba(5, 150, 105, 0.05);
+}
+
+.platform-profile-menu {
+  width: 17rem;
+  gap: 0.7rem;
+  padding: 0.8rem;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.platform-profile-links a,
+.platform-profile-logout {
+  min-height: 2.45rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+}
+
+.developer-hub-main {
+  width: min(100%, 1480px);
+  gap: 1.2rem;
+  padding: 1.5rem 1.75rem 2rem;
+}
+
+.developer-hub-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.developer-hub-hero {
+  gap: 0.85rem;
+  padding: 1.5rem;
+}
+
+.developer-hub-hero h1 {
+  max-width: 50rem;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 1.02;
+}
+
+.developer-hub-hero p {
+  max-width: 44rem;
+  font-size: 1.02rem;
+}
+
+.developer-hub-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: 22px;
+}
+
+.developer-hub-banner strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.developer-hub-banner p {
+  margin: 0;
+  color: rgba(17, 24, 39, 0.64);
+}
+
+.developer-hub-grid {
+  gap: 0.9rem;
+}
+
+.developer-hub-card,
+.developer-hub-reference-item {
+  padding: 1.1rem;
+  border-radius: 22px;
+}
+
+.developer-hub-card strong {
+  font-size: 1.02rem;
+}
+
+.developer-hub-reference-heading h2 {
+  font-size: 1.45rem;
+}
+
+.developer-hub-article-layout {
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) minmax(15rem, 18rem);
+  gap: 0.9rem;
+}
+
+.developer-hub-side-list,
+.developer-hub-article,
+.developer-hub-rail-card {
+  border-radius: 22px;
+}
+
+.developer-hub-side-link {
+  min-height: 2.55rem;
+  padding: 0.52rem 0.7rem;
+  border-radius: 12px;
+}
+
+html[data-theme="dark"] .platform-auth-shell,
+html[data-theme="dark"] .platform-workspace-shell,
+html[data-theme="dark"] .developer-hub-shell {
+  background:
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 24%),
+    linear-gradient(180deg, #0b1220 0%, #09111d 100%);
+}
+
+html[data-theme="dark"] .developer-hub-topbar,
+html[data-theme="dark"] .platform-workspace-topbar,
+html[data-theme="dark"] .platform-auth-header,
+html[data-theme="dark"] .platform-workspace-sidebar,
+html[data-theme="dark"] .platform-workspace-main,
+html[data-theme="dark"] .platform-workspace-metric,
+html[data-theme="dark"] .platform-workspace-card,
+html[data-theme="dark"] .platform-workspace-section,
+html[data-theme="dark"] .platform-workspace-panel,
+html[data-theme="dark"] .platform-workspace-related-item,
+html[data-theme="dark"] .platform-profile-menu,
+html[data-theme="dark"] .developer-hub-card,
+html[data-theme="dark"] .developer-hub-reference-item,
+html[data-theme="dark"] .developer-hub-side-list,
+html[data-theme="dark"] .developer-hub-article,
+html[data-theme="dark"] .developer-hub-rail-card,
+html[data-theme="dark"] .developer-hub-banner,
+html[data-theme="dark"] .developer-hub-hero,
+html[data-theme="dark"] .platform-auth-card {
+  border-color: rgba(148, 163, 184, 0.16);
+  background: rgba(7, 16, 30, 0.92);
+  box-shadow: 0 20px 48px rgba(2, 6, 23, 0.36);
+}
+
+html[data-theme="dark"] .platform-workspace-search,
+html[data-theme="dark"] .platform-workspace-action,
+html[data-theme="dark"] .platform-workspace-checkitem,
+html[data-theme="dark"] .platform-auth-input,
+html[data-theme="dark"] .platform-auth-provider,
+html[data-theme="dark"] .platform-workspace-icon-button,
+html[data-theme="dark"] .platform-workspace-avatar,
+html[data-theme="dark"] .platform-profile-theme-chip {
+  border-color: rgba(148, 163, 184, 0.16);
+  background: rgba(15, 23, 42, 0.82);
+}
+
+html[data-theme="dark"] .platform-workspace-checkitem.is-complete {
+  border-color: rgba(16, 185, 129, 0.28);
+  background: rgba(6, 95, 70, 0.24);
+}
+
+html[data-theme="dark"] .developer-hub-banner p,
+html[data-theme="dark"] .platform-workspace-breadcrumbs,
+html[data-theme="dark"] .platform-workspace-hero-copy p,
+html[data-theme="dark"] .platform-auth-copy p {
+  color: rgba(226, 232, 240, 0.72);
 }
 
 .docs-experience-summary-card,
@@ -13854,6 +15494,18 @@ html[data-theme="light"] .forge-neutral-notice {
     grid-template-columns: 1fr;
   }
 
+  .developer-hub-grid,
+  .developer-hub-reference-grid,
+  .platform-auth-grid,
+  .platform-workspace-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .developer-hub-article-layout,
+  .platform-workspace-content {
+    grid-template-columns: 1fr;
+  }
+
   .faq-screen-head {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -13942,6 +15594,42 @@ html[data-theme="light"] .forge-neutral-notice {
   }
 
   .developer-portal-health-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .developer-hub-topbar,
+  .platform-workspace-topbar,
+  .platform-auth-header,
+  .developer-hub-hero-actions,
+  .platform-auth-actions,
+  .platform-workspace-topnav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .developer-hub-nav {
+    flex-wrap: wrap;
+  }
+
+  .developer-hub-grid,
+  .developer-hub-reference-grid,
+  .platform-auth-grid,
+  .platform-workspace-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .platform-auth-card-compact {
+    width: min(100%, 28rem);
+    padding: 1.4rem;
+  }
+
+  .platform-workspace-layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .platform-workspace-content,
+  .developer-hub-article-layout {
     grid-template-columns: 1fr;
   }
 

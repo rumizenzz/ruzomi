@@ -12,7 +12,7 @@ import { SiteStateContext, useLiveSiteState } from "@/components/live-data-hooks
 import { MarketingHeaderAccount } from "@/components/marketing-header-account";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { HostMode } from "@/lib/host-mode";
-import { buildHostedHref, buildRuzomiHref } from "@/lib/host-links";
+import { buildHostAwareRuzomiHref, buildHostedHref } from "@/lib/host-links";
 import { footerLinks } from "@/lib/mock-data";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import type { SiteState } from "@/lib/types";
@@ -25,25 +25,40 @@ const defaultPrimaryLinks = [
 
 const ruzomiPrimaryLinks = [
   { href: buildHostedHref("paytocommit", "/pools"), label: "Markets", active: (pathname: string) => pathname.startsWith("/pools") },
-  { href: buildRuzomiHref("/?lane=direct"), label: "Direct Sparks", active: (pathname: string) => pathname.startsWith("/ruzomi") },
-  { href: buildRuzomiHref("/?lane=artifacts"), label: "Artifacts", active: (pathname: string) => pathname.startsWith("/ruzomi") },
+  { href: "/?lane=direct", label: "Direct Sparks", active: (pathname: string) => pathname.startsWith("/ruzomi") },
+  { href: "/?lane=artifacts", label: "Artifacts", active: (pathname: string) => pathname.startsWith("/ruzomi") },
   { href: buildHostedHref("paytocommit", "/app"), label: "My Portfolio", active: (pathname: string) => pathname.startsWith("/app") },
 ];
 
-const menuLinks = [
-  { href: "/leaderboard", label: "Leaderboard" },
-  { href: buildHostedHref("platform"), label: "Platform" },
-  { href: buildHostedHref("developers"), label: "Developers" },
-  { href: buildHostedHref("docs"), label: "Docs" },
-  { href: buildHostedHref("status"), label: "Status" },
-  { href: "/faqs", label: "FAQs" },
-  { href: "/quickstart", label: "Quickstart" },
-  { href: "/sales", label: "Sales" },
-  { href: "/fees", label: "Fees" },
-  { href: "/legal", label: "Legal" },
-  { href: "/help-center", label: "Help Center" },
-  { href: buildRuzomiHref(), label: "Ruzomi" },
-  { href: "/contact", label: "Contact" },
+const menuSections = [
+  {
+    title: "Explore",
+    links: [
+      { href: "/leaderboard", label: "Leaderboard" },
+      { href: "/", label: "Ruzomi" },
+      { href: buildHostedHref("platform"), label: "Platform" },
+      { href: buildHostedHref("developers"), label: "Developers" },
+    ],
+  },
+  {
+    title: "Guides",
+    links: [
+      { href: buildHostedHref("docs"), label: "Docs" },
+      { href: buildHostedHref("status"), label: "Status" },
+      { href: "/faqs", label: "FAQs" },
+      { href: "/help-center", label: "Help Center" },
+      { href: "/quickstart", label: "Quickstart" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { href: "/sales", label: "Sales" },
+      { href: "/fees", label: "Fees" },
+      { href: "/legal", label: "Legal" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
 ];
 
 function normalizeHostedPathname(pathname: string, hostMode: HostMode) {
@@ -134,14 +149,46 @@ export function MarketingShell({
     };
   }, [supabase]);
 
-  const visibleMenuLinks = useMemo(
+  const visibleMenuSections = useMemo(
     () =>
-      menuLinks
-        .filter((link) => link.href !== "/quickstart" || isEmailConfirmed)
-        .filter((link) => !(isRuzomiHost && link.label === "Ruzomi")),
+      menuSections
+        .map((section) => ({
+          ...section,
+          links: section.links
+            .filter((link) => link.href !== "/quickstart" || isEmailConfirmed)
+            .filter((link) => !(isRuzomiHost && link.label === "Ruzomi")),
+        }))
+       .filter((section) => section.links.length),
     [isEmailConfirmed, isRuzomiHost],
   );
-  const primaryLinks = isRuzomiHost ? ruzomiPrimaryLinks : defaultPrimaryLinks;
+  const ruzomiRootHref = buildHostAwareRuzomiHref(hostMode);
+  const primaryLinks = isRuzomiHost
+    ? ruzomiPrimaryLinks.map((link) =>
+        link.label === "Direct Sparks" || link.label === "Artifacts"
+          ? { ...link, href: buildHostAwareRuzomiHref(hostMode, link.href) }
+          : link,
+      )
+    : defaultPrimaryLinks.map((link) =>
+        link.label === "Spark"
+          ? { ...link, href: hostMode === "paytocommit" ? buildHostedHref("ruzomi") : buildHostAwareRuzomiHref(hostMode) }
+          : link,
+      );
+  const visibleMenuSectionsWithHostLinks = useMemo(
+    () =>
+      visibleMenuSections.map((section) => ({
+        ...section,
+        links: section.links.map((link) => ({
+          ...link,
+          href:
+            link.label === "Ruzomi"
+              ? hostMode === "paytocommit"
+                ? buildHostedHref("ruzomi")
+                : ruzomiRootHref
+              : resolveHostAwareHref(link.href, hostMode),
+        })),
+      })),
+    [visibleMenuSections, ruzomiRootHref, hostMode],
+  );
 
   return (
     <SiteStateContext.Provider value={siteState}>
@@ -166,7 +213,7 @@ export function MarketingShell({
                 {isRuzomiHost ? (
                   <Link
                     className={`nav-link nav-link-shell ${normalizedPathname.startsWith("/ruzomi") ? "is-active" : ""}`}
-                    href={buildRuzomiHref()}
+                    href={ruzomiRootHref}
                   >
                     <span>Network</span>
                     <span className="nav-link-count nav-link-count-live">{siteState.liveChannelCount}</span>
@@ -227,6 +274,7 @@ export function MarketingShell({
                   <div className="market-console-panel market-console-panel-right shell-menu-panel">
                     <div className="market-console-header">
                       <strong className="market-console-title">Menu</strong>
+                      <span className="mono-label">Open the next surface without the clutter.</span>
                     </div>
 
                     <div className="market-console-grid">
@@ -241,13 +289,22 @@ export function MarketingShell({
                       <div className="market-console-block market-console-block-wide">
                         <div className="market-console-block-head">
                           <span className="mono-label">Open</span>
-                          <strong>Explore</strong>
+                          <strong>Go somewhere useful</strong>
                         </div>
-                        <div className="console-link-grid">
-                          {visibleMenuLinks.map((link) => (
-                            <Link key={link.href} className="console-link" href={resolveHostAwareHref(link.href, hostMode)}>
-                              <span>{link.label}</span>
-                            </Link>
+                        <div className="shell-menu-sections">
+                          {visibleMenuSectionsWithHostLinks.map((section) => (
+                            <div key={section.title} className="shell-menu-section">
+                              <div className="shell-menu-section-head">
+                                <span className="mono-label">{section.title}</span>
+                              </div>
+                              <div className="shell-menu-section-list">
+                                {section.links.map((link) => (
+                                  <Link key={link.href} className="console-link" href={link.href}>
+                                    <span>{link.label}</span>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -258,7 +315,7 @@ export function MarketingShell({
                           <strong>Commitment Markets</strong>
                         </div>
                         <div className="console-category-grid">
-                          {siteState.categories.slice(0, 8).map((category) => (
+                          {siteState.categories.slice(0, 6).map((category) => (
                             <Link
                               key={category.anchor}
                               className="console-category-link"

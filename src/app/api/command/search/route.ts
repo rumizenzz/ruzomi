@@ -66,7 +66,7 @@ function getPoolActionLabel(pool: CommitmentPool) {
   }
 
   if (pool.notifyMeAvailable) {
-    return "View timing";
+    return "View market";
   }
 
   if (pool.lifecycleState === "join_closed_active") {

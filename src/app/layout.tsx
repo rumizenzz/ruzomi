@@ -24,7 +24,7 @@ const monoFont = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
-const sharedIcons: Metadata["icons"] = {
+const payToCommitIcons: Metadata["icons"] = {
   icon: [
     {
       url: "/paytocommit-tab.ico?v=20260309c",
@@ -53,6 +53,29 @@ const sharedIcons: Metadata["icons"] = {
   ],
 };
 
+const ruzomiIcons: Metadata["icons"] = {
+  icon: [
+    {
+      url: "/ruzomi-tab.svg?v=20260312a",
+      type: "image/svg+xml",
+      sizes: "any",
+    },
+    {
+      url: "/ruzomi-tab-32x32.png?v=20260312a",
+      type: "image/png",
+      sizes: "32x32",
+    },
+  ],
+  shortcut: ["/ruzomi-tab.svg?v=20260312a"],
+  apple: [
+    {
+      url: "/ruzomi-apple-touch-icon.png?v=20260312a",
+      type: "image/png",
+      sizes: "180x180",
+    },
+  ],
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const host = (await headers()).get("host");
   const hostMode = getHostModeFromHost(host);
@@ -60,12 +83,12 @@ export async function generateMetadata(): Promise<Metadata> {
   if (hostMode === "ruzomi") {
     return {
       metadataBase: new URL("https://ruzomi.com"),
-      manifest: "/site.webmanifest?v=20260309c",
+      manifest: "/ruzomi.webmanifest?v=20260312a",
       title: {
         default: "Ruzomi - The Network Around Every Commitment Market",
         template: "%s - Ruzomi",
       },
-      icons: sharedIcons,
+      icons: ruzomiIcons,
       description:
         "Ruzomi is the network around every commitment market, with joined channels, direct sparks, result artifacts, and live follow-through across the markets you care about.",
       keywords: [
@@ -86,9 +109,9 @@ export async function generateMetadata(): Promise<Metadata> {
         type: "website",
         images: [
           {
-            url: "/PayToCommit-OpenGraph2.png?v=20260311a",
-            width: 2750,
-            height: 1536,
+            url: "/ruzomi-og.png?v=20260312a",
+            width: 1200,
+            height: 630,
             alt: "Ruzomi social preview",
           },
         ],
@@ -98,7 +121,94 @@ export async function generateMetadata(): Promise<Metadata> {
         title: "Ruzomi - The Network Around Every Commitment Market",
         description:
           "The social network for joined markets, direct sparks, result artifacts, and follow-through that stays visible after the stake.",
-        images: ["/PayToCommit-OpenGraph2.png?v=20260311a"],
+        images: ["/ruzomi-og.png?v=20260312a"],
+      },
+    };
+  }
+
+  if (hostMode === "platform") {
+    return {
+      metadataBase: new URL("https://platform.paytocommit.com"),
+      title: {
+        default: "PayToCommit Platform for Developers",
+        template: "%s - PayToCommit Platform",
+      },
+      icons: payToCommitIcons,
+      description:
+        "Open the authenticated API workspace for PayToCommit organizations, projects, API keys, usage, workforce rollout, and developer operations.",
+      openGraph: {
+        title: "PayToCommit Platform for Developers",
+        description:
+          "The authenticated workspace for projects, API keys, billing, reporting, and enterprise rollout inside PayToCommit.",
+        url: "https://platform.paytocommit.com",
+        siteName: "PayToCommit Platform",
+        type: "website",
+        images: [
+          {
+            url: "/PayToCommit-OpenGraph2.png?v=20260311a",
+            width: 2750,
+            height: 1536,
+            alt: "PayToCommit Platform",
+          },
+        ],
+      },
+    };
+  }
+
+  if (hostMode === "developers") {
+    return {
+      metadataBase: new URL("https://developers.paytocommit.com"),
+      title: {
+        default: "PayToCommit Developers",
+        template: "%s - PayToCommit Developers",
+      },
+      icons: payToCommitIcons,
+      description:
+        "Reference docs, quickstarts, webhooks, HRS API guidance, and integration patterns for PayToCommit developers.",
+      openGraph: {
+        title: "PayToCommit Developers",
+        description:
+          "Docs, quickstarts, API reference, and integration guidance for the PayToCommit developer platform.",
+        url: "https://developers.paytocommit.com",
+        siteName: "PayToCommit Developers",
+        type: "website",
+        images: [
+          {
+            url: "/PayToCommit-OpenGraph2.png?v=20260311a",
+            width: 2750,
+            height: 1536,
+            alt: "PayToCommit Developers",
+          },
+        ],
+      },
+    };
+  }
+
+  if (hostMode === "status") {
+    return {
+      metadataBase: new URL("https://status.paytocommit.com"),
+      title: {
+        default: "PayToCommit Status",
+        template: "%s - PayToCommit Status",
+      },
+      icons: payToCommitIcons,
+      description:
+        "Track system health, incident history, deployment state, and service performance across PayToCommit.",
+      openGraph: {
+        title: "PayToCommit Status",
+        description:
+          "System health and incident visibility across PayToCommit services.",
+        url: "https://status.paytocommit.com",
+        siteName: "PayToCommit Status",
+        type: "website",
+        images: [
+          {
+            url: "/PayToCommit-OpenGraph2.png?v=20260311a",
+            width: 2750,
+            height: 1536,
+            alt: "PayToCommit Status",
+          },
+        ],
       },
     };
   }
@@ -110,7 +220,7 @@ export async function generateMetadata(): Promise<Metadata> {
       default: "PayToCommit - Get Paid To Do What You Said You'll Do",
       template: "%s - PayToCommit",
     },
-    icons: sharedIcons,
+    icons: payToCommitIcons,
     description:
       "PayToCommit is the commitment market where people put money behind what they said they would do, submit proof by the deadline, and close the loop with a visible result.",
     keywords: [

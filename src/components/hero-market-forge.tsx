@@ -85,7 +85,7 @@ function getFallbackPoolActionLabel(pool: (typeof fallbackPools)[number]) {
   }
 
   if (pool.notifyMeAvailable) {
-    return "View timing";
+    return "View market";
   }
 
   if (pool.lifecycleState === "join_closed_active") {

@@ -16,6 +16,8 @@ import { InviteLoopCard } from "@/components/invite-loop-card";
 import { ProfilePeekLink } from "@/components/profile-peek-link";
 import { QuickstartCompactCard } from "@/components/quickstart-compact-card";
 import { ResultCardStack } from "@/components/result-card-stack";
+import type { HostMode } from "@/lib/host-mode";
+import { buildHostedHref, buildRuzomiHref as buildHostedRuzomiHref } from "@/lib/host-links";
 import { getRenderableGifUrl } from "@/lib/media";
 import { buildShareCampaignText } from "@/lib/share-campaign";
 import type { QuickstartState } from "@/lib/quickstart";
@@ -60,11 +62,13 @@ function buildRuzomiHref({
   channel,
   dm,
   shareTicketId,
+  hostMode,
 }: {
   lane: RuzomiLane;
   channel?: string | null;
   dm?: string | null;
   shareTicketId?: string | null;
+  hostMode: HostMode;
 }) {
   const params = new URLSearchParams();
 
@@ -85,7 +89,11 @@ function buildRuzomiHref({
   }
 
   const query = params.toString();
-  return query ? `/?${query}` : "/";
+  if (hostMode === "paytocommit") {
+    return query ? `/ruzomi?${query}` : "/ruzomi";
+  }
+
+  return query ? buildHostedRuzomiHref(`/?${query}`) : buildHostedRuzomiHref();
 }
 
 function buildDirectSparkThreads(messages: PoolMessage[]) {
@@ -151,6 +159,7 @@ export function RuzomiScreen({
   sparkFeed,
   galactusAccess,
   quickstartState,
+  hostMode,
   shareTicketId = null,
   selectedLane = "feed",
   selectedChannel = "global",
@@ -161,6 +170,7 @@ export function RuzomiScreen({
   sparkFeed: PoolMessage[];
   galactusAccess: GalactusAccessState;
   quickstartState: QuickstartState | null;
+  hostMode: HostMode;
   shareTicketId?: string | null;
   selectedLane?: RuzomiLane;
   selectedChannel?: string;
@@ -223,7 +233,7 @@ export function RuzomiScreen({
     title: "Saved artifacts",
     category: "Artifacts",
     summary: "Victory and forfeiture cards stay ready to save, post into Ruzomi, or move into external share.",
-    href: buildRuzomiHref({ lane: "artifacts", shareTicketId }),
+    href: buildRuzomiHref({ lane: "artifacts", shareTicketId, hostMode }),
     unreadCount: spotlightCard ? 1 : 0,
     type: "artifacts",
   };
@@ -233,7 +243,7 @@ export function RuzomiScreen({
     title: "Global feed",
     category: "Ruzomi",
     summary: "Watch the latest commitment closes, stake pulses, and verified activity across the full network.",
-    href: buildRuzomiHref({ lane: "feed" }),
+    href: buildRuzomiHref({ lane: "feed", hostMode }),
     unreadCount: sparkFeed.filter((message) => message.unread).length,
     type: "global",
   };
@@ -245,7 +255,7 @@ export function RuzomiScreen({
     summary: activeDirectThread
       ? `Keep the thread with ${activeDirectThread.authorName} live without leaving your joined channels.`
       : "Open private follow-through threads once you are inside the network.",
-    href: buildRuzomiHref({ lane: "direct", dm: activeDirectThread?.handle ?? null, shareTicketId }),
+    href: buildRuzomiHref({ lane: "direct", dm: activeDirectThread?.handle ?? null, shareTicketId, hostMode }),
     unreadCount: directSparkThreads.reduce((sum, thread) => sum + thread.unreadCount, 0),
     type: "direct",
   };
@@ -255,7 +265,7 @@ export function RuzomiScreen({
     title: market.poolTitle,
     category: market.category,
     summary: `${market.totalStakeLabel} · ${market.deadlineLabel} · ${market.resultLabel}`,
-    href: buildRuzomiHref({ lane: "feed", channel: market.poolSlug, shareTicketId }),
+    href: buildRuzomiHref({ lane: "feed", channel: market.poolSlug, shareTicketId, hostMode }),
     unreadCount: sparkFeed.filter((message) => message.poolSlug === market.poolSlug && message.unread).length,
     type: "market",
   }));
@@ -279,12 +289,14 @@ export function RuzomiScreen({
       ? pulseItems.filter((item) => item.poolSlug === selectedChannel).slice(0, 4)
       : pulseItems.slice(0, 5);
   const activeSummary = buildChannelSummary(activeFeedChannel, selectedLane);
+  const ruzomiHomeHref = hostMode === "paytocommit" ? "/ruzomi" : buildHostedRuzomiHref();
+  const authNextHref = hostMode === "paytocommit" ? "https://paytocommit.com/ruzomi" : "https://ruzomi.com/";
 
   return (
     <section className="auth-screen ruzomi-screen">
       <div className="ruzomi-shell">
         <aside className="ruzomi-left-rail">
-          <Link aria-label="Ruzomi home" className="ruzomi-logo" href="/">
+          <Link aria-label="Ruzomi home" className="ruzomi-logo" href={ruzomiHomeHref}>
             <span>RUZOMI</span>
           </Link>
 
@@ -349,7 +361,7 @@ export function RuzomiScreen({
             </label>
 
             <div className="ruzomi-topbar-actions">
-              <Link className="ruzomi-topbar-link" href={buildRuzomiHref({ lane: "feed" })}>
+              <Link className="ruzomi-topbar-link" href={buildRuzomiHref({ lane: "feed", hostMode })}>
                 <Radio aria-hidden="true" size={16} />
                 Global
               </Link>
@@ -369,7 +381,10 @@ export function RuzomiScreen({
                   variant="pill"
                 />
               ) : (
-                <Link className="ruzomi-topbar-link" href="/login?next=%2F">
+                <Link
+                  className="ruzomi-topbar-link"
+                  href={buildHostedHref("paytocommit", `/login?next=${encodeURIComponent(authNextHref)}`)}
+                >
                   <Bell aria-hidden="true" size={16} />
                   Log in to post
                 </Link>
@@ -405,10 +420,16 @@ export function RuzomiScreen({
                     </p>
                   </div>
                   <div className="button-row docs-ai-actions">
-                    <Link className="action-primary" href="/login?next=%2F">
+                    <Link
+                      className="action-primary"
+                      href={buildHostedHref("paytocommit", `/login?next=${encodeURIComponent(authNextHref)}`)}
+                    >
                       Log in
                     </Link>
-                    <Link className="action-secondary" href="/signup?next=%2F">
+                    <Link
+                      className="action-secondary"
+                      href={buildHostedHref("paytocommit", `/signup?next=${encodeURIComponent(authNextHref)}`)}
+                    >
                       Sign up
                     </Link>
                   </div>
@@ -416,7 +437,7 @@ export function RuzomiScreen({
               ) : (
                 <>
                   {quickstartState && !quickstartState.isComplete ? (
-                    <QuickstartCompactCard className="ruzomi-quickstart-card" state={quickstartState} />
+                    <QuickstartCompactCard className="ruzomi-quickstart-card" hostMode={hostMode} state={quickstartState} />
                   ) : null}
 
                   {spotlightCard ? (
@@ -468,10 +489,15 @@ export function RuzomiScreen({
                         className="action-primary"
                         href={
                           selectedLane === "artifacts"
-                            ? artifactChannel.href
-                            : selectedLane === "direct"
-                              ? directChannel.href
-                              : buildRuzomiHref({ lane: "feed", channel: selectedMarket?.slug ?? "global", shareTicketId })
+                              ? artifactChannel.href
+                              : selectedLane === "direct"
+                                ? directChannel.href
+                              : buildRuzomiHref({
+                                  lane: "feed",
+                                  channel: selectedMarket?.slug ?? "global",
+                                  shareTicketId,
+                                  hostMode,
+                                })
                         }
                       >
                         {selectedLane === "artifacts" ? "Open artifact shelf" : selectedLane === "direct" ? "Stay in direct sparks" : "Stay in this channel"}
@@ -494,7 +520,7 @@ export function RuzomiScreen({
                           <Link
                             key={thread.handle}
                             className={`ruzomi-direct-item ${activeDirectThread?.handle === thread.handle ? "is-active" : ""}`}
-                            href={buildRuzomiHref({ lane: "direct", dm: thread.handle, shareTicketId })}
+                            href={buildRuzomiHref({ lane: "direct", dm: thread.handle, shareTicketId, hostMode })}
                           >
                             <div>
                               <ProfilePeekLink
@@ -594,11 +620,7 @@ export function RuzomiScreen({
                         Save the close, move it into Ruzomi, or keep it ready for the next share.
                       </p>
                     </div>
-                    <ResultCardStack
-                      activeTicketId={shareTicketId}
-                      cards={resultCards}
-                      emptyMessage="Artifacts appear after your first close."
-                    />
+                    <ResultCardStack activeTicketId={shareTicketId} cards={resultCards} emptyMessage="Artifacts appear after your first close." hostMode={hostMode} />
                   </div>
                 ) : (
                   <div className="ruzomi-empty-card">
@@ -671,11 +693,7 @@ export function RuzomiScreen({
                       Save the close now or open the full artifact lane when you are ready to post it.
                     </p>
                   </div>
-                  <ResultCardStack
-                    activeTicketId={shareTicketId}
-                    cards={resultCards.slice(0, 2)}
-                    emptyMessage="Artifacts appear after your first close."
-                  />
+                  <ResultCardStack activeTicketId={shareTicketId} cards={resultCards.slice(0, 2)} emptyMessage="Artifacts appear after your first close." hostMode={hostMode} />
                 </div>
               ) : null}
             </section>

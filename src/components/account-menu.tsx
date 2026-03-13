@@ -24,14 +24,14 @@ export function AccountMenu({
       <div className="market-console-panel market-console-panel-right shell-menu-panel account-menu-panel">
         <div className="market-console-header">
           <strong className="market-console-title">Account</strong>
-          <span className="mono-label">Manage your active session</span>
+          <span className="mono-label">Profile, wallet rules, and session controls.</span>
         </div>
 
         <div className="account-menu-grid">
           <Link className="account-menu-link" href={profileHref}>
             <div className="account-menu-link-copy">
               <strong>Profile</strong>
-              <span>Presence, public identity, and Spark status.</span>
+              <span>Public identity, presence, and joined-market context.</span>
             </div>
             <UserRound size={16} />
           </Link>
@@ -39,7 +39,7 @@ export function AccountMenu({
           <Link className="account-menu-link" href={settingsHref}>
             <div className="account-menu-link-copy">
               <strong>Settings</strong>
-              <span>Notifications, privacy, wallet access, and session controls.</span>
+              <span>Notifications, privacy, consent, and session controls.</span>
             </div>
             <Settings2 size={16} />
           </Link>
@@ -73,7 +73,12 @@ export function AccountMenu({
           <p className="detail-text">
             Support can explain wallet policy, but it cannot recover a lost 12-Word Continuity Key or reset a local wallet password.
           </p>
-          <LogoutButton className="action-secondary account-menu-logout" label="Log out" />
+          <div className="account-menu-actions">
+            <Link className="action-secondary account-menu-secondary" href={settingsHref}>
+              Open settings
+            </Link>
+            <LogoutButton className="action-secondary account-menu-logout" label="Log out" />
+          </div>
         </div>
       </div>
     </details>

@@ -58,7 +58,10 @@ export async function GET(request: NextRequest) {
 
   const { admin, viewer } = await getViewerAndClient();
   if (!admin || !viewer) {
-    return NextResponse.json({ error: "Log in or sign up to save market reminders." }, { status: 401 });
+    return NextResponse.json({
+      subscription: null,
+      requiresAuth: true,
+    });
   }
 
   const poolId = await getPoolIdBySlug(admin, poolSlug);

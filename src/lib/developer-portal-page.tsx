@@ -1,21 +1,27 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 
+import { DeveloperDocsHub } from "@/components/developer-docs-hub";
 import { DeveloperPortalShell } from "@/components/developer-portal-shell";
+import { PlatformAuthGate } from "@/components/platform-auth-gate";
+import { PlatformWorkspaceShell } from "@/components/platform-workspace-shell";
 import {
   developerPortalPages,
   getDeveloperPortalPageBySlug,
   getDeveloperPortalPath,
 } from "@/lib/developer-platform-content";
 import { getGalactusAccessState } from "@/lib/galactus-access";
+import { getHostModeFromHost } from "@/lib/host-mode";
 import { getGenerationEligibilityStateForSession } from "@/lib/paytocommit-data";
 import { getAuthenticatedAppSessionToken, getAuthenticatedSupabaseUser } from "@/lib/supabase/authenticated-user";
 
 export function getDeveloperHostMode(host: string): "path" | "developers" | "platform" {
-  if (host === "developers.paytocommit.com" || host === "www.developers.paytocommit.com") {
+  const hostMode = getHostModeFromHost(host);
+
+  if (hostMode === "developers") {
     return "developers";
   }
-  if (host === "platform.paytocommit.com" || host === "www.platform.paytocommit.com") {
+  if (hostMode === "platform") {
     return "platform";
   }
   return "path";
@@ -56,7 +62,7 @@ export async function getDeveloperPortalMetadata(slug: string[]): Promise<Metada
   };
 }
 
-export async function renderDeveloperPortalPage(slug: string[], searchQuery?: string) {
+export async function renderDeveloperPortalPage(slug: string[], searchQuery?: string | string[]) {
   const host = (await headers()).get("host") ?? "";
   const hostMode = getDeveloperHostMode(host);
   const resolvedSlug = getResolvedDeveloperSlug(slug, hostMode);
@@ -65,6 +71,19 @@ export async function renderDeveloperPortalPage(slug: string[], searchQuery?: st
   const sessionToken = await getAuthenticatedAppSessionToken();
   const eligibilityState = await getGenerationEligibilityStateForSession(sessionToken);
   const galactusAccess = getGalactusAccessState(eligibilityState, "sales", "/developers");
+  const normalizedSearchQuery = Array.isArray(searchQuery) ? searchQuery[0] : searchQuery;
+
+  if (hostMode === "platform") {
+    if (!authUser) {
+      return <PlatformAuthGate initialMode={slug[0] === "signup" ? "signup" : "login"} />;
+    }
+
+    return <PlatformWorkspaceShell currentPage={page} pages={developerPortalPages} viewerEmail={authUser?.email ?? null} />;
+  }
+
+  if (hostMode === "developers") {
+    return <DeveloperDocsHub currentPage={page} isHome={slug.length === 0} pages={developerPortalPages} />;
+  }
 
   return (
     <DeveloperPortalShell
@@ -72,7 +91,7 @@ export async function renderDeveloperPortalPage(slug: string[], searchQuery?: st
       galactusAccess={galactusAccess}
       hostMode={hostMode}
       pages={developerPortalPages}
-      searchQuery={searchQuery}
+      searchQuery={normalizedSearchQuery}
       viewerEmail={authUser?.email ?? null}
     />
   );
